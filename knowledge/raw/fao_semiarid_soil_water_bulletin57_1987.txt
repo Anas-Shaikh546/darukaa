@@ -1,0 +1,194 @@
+
+
+===== t0321e.htm (Foreword) =====
+
+Soil and water conservation 
+
+ FOREWORD 
+
+ FAO has been concerned for many years with the development, manage- ment and conservation of land resources. 
+
+ As part of its work in this field the Land and Water Division has, since 1965, produced a series of Soils Bulletins. These have been written with the intention of bringing knowledge to those interested and involved in the development of land resources. To do this, the Bulletins have been aimed at meeting particular requirements as understanding and experience of different aspects of this subject have become available. 
+
+ In recent years there has been a growing interest in the semi-arid regions of the world. This interest has largely been brought about by the droughts and famines of the 1970s and 1980s that have affected huge areas, and millions of people, in the semi-arid areas of Africa. 
+
+ What can be done to prevent calamities like these occurring again? There can be no simple answer to this question as a wide range of technical, economic, social and political problems must be examined and resolved. 
+
+ However, we do know that droughts are very much a part of the natural events in the semi-arid regions - they have occurred often in the past and they will occur frequently again in the future. We also now realize that the terrible effects of these last droughts have been exacerbated by soil erosion and other forms of land degradation which have been allowed to develop over the years in semi-arid regions through mismanagement and poor land use. Degraded land and vegetation is just not capable of withstanding the added demands placed upon them by drought. 
+
+ But soil erosion can be overcome and the land base restored to a healthy, productive state if sound management and appropriate techniques are applied. 
+
+ All the answers to conservation in the semi-arid regions could not be given in a short publication such as this - even if they were all known. Exactly what is needed varies from place to place depending on the local climate, soils, vegetation and human requirements. 
+
+ What has been done in this Bulletin, therefore, is to present methods and techniques which have been tested and proved effective in some part of the world where lack of rainfall is a problem because of amount, distribution or unreliability. Many of these methods and techniques, we believe, have potential for wider use in other parts of the world with similar problems. This Bulletin then is intended as a reference and a guide to those planners and technicians working in the semi-arid areas who are searching for ideas to develop and adapt in their efforts to control land, degradation and introduce sustainable systems of productive agriculture. 
+
+ The reader is asked to note that owing to the differences in terminology in soil classification systems, the author has used the terms from the orginal works referred to. As different terms mean different things to different people, Annex 2 has been included. This consists of a table taken from Elsevier's Agricultural Compendium (1981), Table 2.7/7, entitled &quot;Summary of FAO/Unesco system of soil classification, with analogues in the US system of taxonomy&quot;.
+
+===== t0321e-01.htm =====
+
+Soil and water conservation 
+
+ ACKNOWLEDGEMENTS 
+
+ Assistance is gratefully acknowledged from the many individuals and institutions who have helped by sending ideas, comments, literature and photographs for this Bulletin, particularly: 
+
+ Staff of the Arab Centre for the Studies of Arid Zones and Dry Lands (ACSAD), Damascus, Syria; P.E.V. Charman, and staff of the Soil Conservation Service of New South Wales, Australia; Dr.. M.T. Dennet, Dept. of Agricultural Botany, University of Reading; Dr. Robert M. Dixon, Imprinting Foundation, Tucson, Arizona; Dr. H.E. Dregne, International Centre for Arid and Semi-arid Land Studies, Texas Tech. University, Lubbock, Texas; Dr. S.A. El-Swaify, College of Tropical Agriculture and Human Resources, University of Hawaii; Prof. Michael Evenari, Hebrew University of Jerusalem; Dr. Dwayne H. Fink, US Water Conservation Lab., Phoenix, Arizona; Barney Foran, Division of Wild Life and Rangelands Research, CSIRO, Australia; Dr. S.A. Gavande, Soils and Reclamation Consultant, Austin, Texas; Dr G. T. Gowon, Federal Dept. of Agricultural Land Resources, Kaduna, Nigeria; G.M. Hallam, DRSPR, Mali; Dr B. Heusch, Saint Mury-La Tour, France; W. Hoogmoed, Agricultural University of Wageningen, The Netherlands; Dr. Hans Hurni, Soil Conservation Research Project, Addis Ababa, Ethiopia; Staff of the Intermediate Technology Development Group, Water Group; Intermediate Technology Publications; Staff of the International Centre for Agricultural Research in the Dry Areas (ICARDA), Aleppo, Syria; Staff of the International Crops Research Institute for the Semi-arid Tropics (ICRISAT), Hyderabad, India; Dr. Emlyn Jones, Chiredzi Research Station, Zimbabwe; C.D. Kagoro, The Institute of Agricultural Engineering, Zimbabwe; I.A.F. Laing, Dept. of Agriculture, Western Australia; Dr. H. Lal, EMBRAPA, Petrolina, Brazil; J. G. Lewis, WAPAC, World Bank; Prof C. Mathieu, Faculty of Agronomic Science, University of Burundi; Prof. W.G. Matlock, College of Agriculture, University of Arizona; Dr. A. Millington, Dept. of Geography, University of Reading; I.R. Melville, Conservation Commission of the Northern Territory, Australia; Dr. V.V. Dhruva Narayana, and staff of, the Central Soil and Water Conservation Research and Training Institute, Dehradun, India; Dr. W.E. Ormerod, Padworth, Reading; Staff of Overseas Development Institute, London; Staff of Oxfam; Dr. A.von Peter, International Potash Institute, Switzerland; Prof. J. De Ploey and Dr J. Poesen, Catholic University of Leuven, Belgium; Staff of &quot;Institut de Recherches Agronomiques Tropicales et des Cultures Vivrieres&quot; (IRAT), Montpellier, France; R.G. Richards, Conservation Commission of the Northern Territory, Australia; Dr. E. Roose, ORSTOM, Montpellier, France; Prof. C.W. Rose, School of Australian Environmental Studies, Griffith University, Queensland, Australia; Dr. D. Rosenzweig, Director of Soil Erosion Research Station, Natanya, Israel; T.F. Shaxson, FAO, Brazil; D. Sims, FAO, Portugal; C.W. Steley and W.F. Buddee, Overseas Projects Division, South Australian Dept. of Agriculture; Dr. M.A. Stocking, School of Development Studies, University of East Anglia; Dr. R.K. Sivanappan, Tamil Nadu Agricultural University, Coimbatore, India; Dr. C. Valentin, ORSTOM, Abidjan, Cote d'Ivoire; H. Vogel, German Agency for Technical Cooperation, (GTZ); Dr. T.J. Willcocks, Overseas Division, NIAE, Silsoe, Bedford. 
+
+ Many technical staff in FAO have also been most helpful, particularly D.W. Sanders, Officer-in-Charge, Soil Resources, Management and Conservation Service, who proposed the bulletin and helped define its scope and objectives, and the officers in that service for technical advice. The FAO Remote Sensing Centre who provided the satellite imagery. 
+
+ The research for such a wide-ranging subject was greatly helped by support from the library of Silsoe College - data-base searches by the Librarian Bryan Morgan, retrieval through Inter Library Loan by Mrs Betty Laing, and all the staff helped find material in the College Library. 
+
+ On the production side, many photographs have been kindly loaned, and the source of each is acknowledged in the captions. Photos without a listed source are from the author's collection. Most of the diagrams were drawn by Helen Trayner. I am most grateful to Linde Ovington Lee for ably taking the inumerable drafts and changes through her word-processor, and to Hazel Tonkin, AGLD Editor and Meetings Officer, for editorial help and advice, and for putting it all together. 
+
+ Frontispiece: Satellite imaginery showing overgrazing in the Sahel. The hexagonal shape is the Ekrafane ranch in Niger, where grazing is controlled. The surrounding white area is denuded of vegetation by overgrazing.
+
+===== t0321e-02.htm =====
+
+Soil and water conservation 
+
+ SUMMARY 
+
+ This Bulletin does not offer easy solutions to all the problems of soil and water
+conservation in semi-arid regions. There is no storehouse of tested methods and techniques
+ready to be taken off the shelf for immediate application. The conditions vary too much -
+the climate, the soil, and the social and economic factors. Instead, this Bulletin reviews
+methods and techniques which have been tested and found useful somewhere, and which might
+be suitable for use in other conditions. 
+
+ We have not attempted to define semi-arid areas, and some of the examples come from
+arid or sub-humid regions. The objective is to make the bulletin relevant anywhere that
+rainfall is a problem because of amount, distribution, or unreliability. We have omitted
+the questions of salinity and alkalinity, wind erosion, and mechanization. Neither is
+there a discussion of the political, social, and economic issues, although in many cases
+these are as important as the technical problems. 
+
+ The first three chapters are introductory, and outline the scale and importance of the
+problem, the difficulties and the possibilities for improvement. The bulletin argues
+strongly, and presents evidence, that drought is part of the natural order in semi-arid
+areas, and that the recent disasters of degradation and famine in Africa result from
+misuse and mis-management of the natural resources which reduced the region's ability to
+cope with the additional stress of drought. 
+
+ Chapter 2 starts with a review of the extent of the erosion problem and the pressures
+on semi-arid ecosystems resulting from increasing human and livestock populations. There
+are problems which could be overcome, such as the shortage of information from
+agricultural research, which has in the past been mainly directed towards areas of higher
+agricultural potential. This has resulted in a lack of technology appropriate to the needs
+of sub- sistence farmers and nomadic pastoralists. The unchangeable problems are also
+discussed, particularly the variability of rainfall. The wide diver- sity of soils brings
+problems of soil chemistry and water storage. 
+
+ Looking at the possibilities for improving agriculture in Chapter 3, a case is made for
+wider adoption in semi-arid regions of the existing techniques of resource inventory which
+would allow developing countries to make long-term plans for the optimum development of
+their resources, maximizing development of better land and minimizing stress on the
+marginal areas. To help the adoption of improved farming methods, Farming Systems Research
+is required to provide a better understanding of the motivation of subsistence farmers,
+semi-nomadic cultivators and pastoralists. The slow rate of adoption of promising new
+ideas is associated with failure to understand the farmers' thinking. 
+
+ The first of the four technical chapters deals with soil conserva- tion under the
+headings Principles, Biological Soil Conservation, and Mechancial Conservation Works. It
+is argued that in semi-arid regions, with inevitable low production, much of the
+conventional approach is inappropriate because it has been developed in very different
+conditions. Expensive works using machinery are seldom justified, nor are the conser-
+vation tillage methods which are the backbone of biological soil conser- vation in
+developed countries with a more favourable climate. The requirements in semi-arid areas
+are that biological conservation through improved farming should show short-term benefit
+to the farmer, and that this need not necessarily be in terms of increased yield, for he
+or she may be more concerned with increasing the reliability of yield, or decreasing the
+labour requirement. Similarly, the emphasis should be on mechanical works which are
+simple, low-cost, and can be laid out and constructed and maintained with only small
+inputs of technical advice. 
+
+ Chapter 5, called Water Harvesting, deals with methods to increase the amount of
+moisture stored in the soil profile or where there is some small movement as surplus
+run-off. The choice of methods of water conservation is difficult because the desired
+objective may change from one season to another. In a dry area it may be sensible to
+increase surface storage to improve crop yield in most years, but in a wet year this could
+cause waterlogging and reduce the yield. On the other hand, a drainage system may have the
+objective of increasing run-off from areas usually too wet, but also have the undesired
+effect of exaggerating the effect of a drought. The principle of many methods is to make
+use of marginally inadequate rainfall by concentrating run-off from an uncultivated part
+of the land onto a cultivated part which then receives enough moisture to grow a crop. The
+general term for methods of this type is &quot;rainfall multiplier&quot;. Examples are
+conservation bench terraces, developed and widely used in the United States of America,
+and a number of simpler variations known as contour furrows, microcatchments, or contour
+bunds. The practice of ridging and tied ridging is discussed in some detail because there
+is a large amount of experience of this method in many countries, with varying degrees of
+success. The broad bed and furrow method is being increasingly adopted on the heavy black
+clays of India, closely associated with improved animal-drawn equipment which brings the
+method within the reach of peasant farmers. Other methods of localized surface storage are
+the semi-circular catchments and trapezoidal catchpits becoming popular in Burkina Faso
+and Kenya, which are variations on traditional methods of surface pitting. 
+
+ Under the section Water Spreading there is a discussion of various forms of localized
+use of surface run-off, either occurring naturally from hill areas or after it has been
+diverted and collected in channels. Several ancient examples of this type of run-off
+farming are described from the American Indians, Tunisia, and Israel. There are also more
+recent examples from Kenya, Pakistan, and the Yemen Arab Republic. Inundation methods are
+where floodwaters are impounded and retained long enough to saturate the soil so that a
+crop can be grown on the stored moisture. These range from small-scale examples from the
+Sudan to Brazil to the much larger schemes in semi-arid areas of India, some of which have
+been used for hundreds of years. The diversion and spreading of floods and spate flows
+without storage are discussed with examples from Pakistan, Yemen Arab Republic, and
+several countries in Africa. Sub-surface drainage is felt to have limited application in
+semi-arid regions, but several examples of simple surface drainage systems are described. 
+
+ Methods where surface run-off is collected and stored in dams, tanks, or cisterns for
+later use are described in Chapter 6 on Water Harvesting and Use. The amount of run-off is
+critical to such schemes, so there is a discussion of ways of treating the catchment to
+improve run-off. This includes simple methods such as removing stones and vegetation,
+shaping the catchments as with the roaded catchments and flat-batter dams of Western
+Australia, and chemical treatments such as deflocculants and waxes, and going on to
+sealing the surface with waterproof membranes. Practical guidance is given on the design
+and construction of small earth dams and weirs. Sand dams are discussed, where water is
+stored in the pore spaces of sand retained by a weir, a method which may be particularly
+useful in hot climates because surface evaporation losses are reduced. Off-stream storage
+is described, including the traditional 'hafirs' of Arabic-speaking northern Africa, the
+tanks of India, and the small reservoirs used in Western Australia for stock watering.
+There is a discussion of methods for reducing seepage losses through the floor of storage
+basins, and evaporation losses from the surface, although the available solutions to both
+these problems are frequently too expensive for general use. This chapter ends with a
+discussion on groundwater, covering methods of recharge and extraction from wells,
+boreholes, and horizontal wells, including the ancient qanats of north Africa and western
+Asia, and modern drilled horizontal wells in the western USA. 
+
+ Chapter 7 discusses applications of water conservation to grazing land and to trees and
+shrubs. The problem of overstocking and overgrazing was briefly mentioned earlier among
+the difficulties and problems in semi-arid areas, and is developed here in more detail.
+The evidence of satellite imagery proves conclusively that the degradation of the Sahel
+and of Namibia was man-made and caused by overgrazing, and not the result of drought.
+Examples are shown from Niger in the Frontispiece and from Namibia in this chapter. There
+is no doubt that national herds of livestock are increasing and numerical examples are
+quoted from Swaziland, and from the Mambilla Plateau on the border of Nigeria with
+Cameroon. The decreas- ing mobility of nomadic or semi-nomadic pastoralists is discussed,
+quoting the example of Botswana where the two main causes are settlement, and the
+provision of permanent water supplies at the cattle posts by replacing the previous
+natural water supply with boreholes. Two examples of successful group livestock management
+schemes are mentioned, from Niger and from eastern Senegal. Examples of good management
+are taken from the western USA and compared to the traditional management of the grazing
+by linking it to water supplies in the Butana region of the Sudan. Techniques for
+improving the grazing by reducing surface run-off are discussed with examples of
+large-scale mechanized schemes of creating furrows or pits. Small scale methods more
+suitable for Africa are semi-circular hoops, low banks of stone set out on the contour,
+and small basins formed by digging with hand hoes. 
+
+ In semi-arid areas the landscape is always a mixture of woodland, bush, grazing land
+and arable land, and trees or shrubs are always a part of the ecosystem. They supply many
+needs; fuel, browse, construction materials, food crops, and cash crops, and usually a
+combination of more than one of these. Depletion of the natural stock of trees and shrubs
+is one of the indicators of excessive pressure on the land leading to an increasing rate
+of degradation. Ethiopia is the model for a study of the progressive phases of degradation
+starting with depletion of the tree growth, and ending in a massive exodus. In many
+countries the increasing scarcity of fuelwood is becoming as critical as the scarcity of
+food, and in this context, the need to expand the production of trees and shrubs is
+clearly a major challenge in the semi-arid areas. 
+
+ The usual techniques for afforesation are seldom appropriate in semi-arid areas because
+of the unreliability of the rainfall. The methods suggested are variations of the rainfall
+multiplier approach discussed earlier for cropland. They range from a small basin in which
+a tree seedling is planted, perhaps with small channels to lead extra water to the basin,
+up to the 250 m 2 microcatchments developed in the Negev desert in Israel. Other
+variations of this principle are quoted from several countries in Africa. Agroforestry is
+considered outside the scope of this Bulletin, but a list of references is provided.

@@ -1,0 +1,23 @@
+Cross-verified — solid progress on some fronts, but there's one real problem in the retrieval results themselves that's worth fixing before calling Day 1 done, plus a verification gap.
+
+**What's working correctly:**
+- Ingestion ran clean, 8/9 sources in (Beketov still pending — as planned, no issue)
+- Chunk IDs are SHA-256 hashes — matches the idempotent-upsert design from the blueprint
+- `similarity = 1 - distance` is implemented (0.3261 + 0.6739 = 1.0 exactly) — that was flagged early on as something someone needed to define, and it's done right
+- `rainfall_category` as a categorical field, not numeric — matches the schema call made earlier
+- The reference case values match the original hackathon spec exactly (SOC 0.3%, low rainfall, wheat monoculture, semi-arid)
+- Query construction is deterministic and inspectable, not black-box
+
+**The real issue: retrieval isn't actually multi-variable yet.**
+Look at the top 10 results — every single one is either from the SOC report or the soil-biodiversity SPM. None touch rainfall/water availability, land-use/monoculture, or semi-arid conditions, despite the query string explicitly containing all four clauses (`"soil organic carbon..." | "low rainfall water availability" | "wheat monoculture..." | "semi-arid biodiversity habitat"`). IPCC Ch.4 and SOFO 2020 were successfully ingested but contribute zero chunks to the top 10.
+
+This matters a lot, because Day 2's whole differentiator depends on retrieval actually surfacing evidence across the different variable dimensions — if retrieval only ever returns soil content, the reasoning engine will have nothing to connect rainfall or land-use to, and "≥3 variables" becomes something the LLM has to fake rather than ground.
+
+Most likely cause: the four clauses are being joined into **one string and embedded as a single vector**, rather than retrieved separately and merged. That produces one dominant semantic direction (soil vocabulary, since it's first and richest in the corpus) that drowns out the others — a very common failure mode with concatenated multi-facet queries. Worth checking the retriever code directly: if it's doing one `.query()` call on the joined string, switch to four separate `.query()` calls (one per clause) and interleave/merge the top-k from each, rather than one query on the concatenation.
+
+**Second issue, smaller but real: rank #2 is a bibliography page**, not actual content — it's literally a list of citations ("Lal, R. 2001...", "Lange, M. et al. 2015..."). That's not evidence, it's a reference list, and if this ever gets surfaced to a recommendation as "supporting evidence" it'll look nonsensical to a judge. Worth adding a chunking filter to drop or deprioritize reference/bibliography pages.
+
+**What this doesn't yet prove:**
+Everything shown here is the ingestion script and a direct Python call to `retrieve()` — it bypasses the FastAPI layer entirely. There's no `GET /health` call, no `POST /api/v1/evidence/retrieve` hit over HTTP, and no pytest run shown. Per the Day 1 quality rule you locked earlier ("don't claim something works unless you actually tested it"), the retrieval *logic* is verified, but the *API contract* isn't yet — that's still an open item, not a done one.
+
+Two small things to double check when you get to that: the response here uses `query`/`results` as field names, while the original plan specified `query_context`/`retrieved_evidence` — worth confirming that's an intentional internal shape and the API layer renames it, not a drift. And 2407 chunks total is a lot for 8 sources — possibly SOFO 2020's full ~200 pages went in wholesale rather than just the biodiversity-relevant sections, which could be part of why soil content is dominating (more chunks = more gravitational pull in nearest-neighbor search).

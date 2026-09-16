@@ -1,0 +1,294 @@
+(.venv) PS C:\Users\Administrator\Desktop\darukaa\backend> python diagnostic.py
+=== DARUKAA RETRIEVAL DIAGNOSTIC ===
+
+Full query: soil organic carbon low soil health | low rainfall water availability | wheat monoculture biodiversity land use effects | semi-arid biodiversity habitat
+
+Failed to send telemetry event ClientStartEvent: capture() takes 1 positional argument but 3 were given
+Failed to send telemetry event ClientCreateCollectionEvent: capture() takes 1 positional argument but 3 were given
+Total chunks in collection: 2371
+
+=== FACET 1: SOC / soil health ===
+Query: 'soil organic carbon low soil health'
+Failed to send telemetry event CollectionQueryEvent: capture() takes 1 positional argument but 3 were given
+  Rank 1: 0.7386 similarity
+    Source: FAO - Soil Organic Carbon: The Hidden Potential
+    File: i6937en.pdf page 8
+    Text: VI
+SOIL ORGANIC CARBON  the hidden potentialEXECUTIVE SUMMARY
+In the presence of climate change, land degradation and biodiversity loss, soils have
+b...
+
+  Rank 2: 0.7186 similarity
+    Source: FAO - Soil Organic Carbon: The Hidden Potential
+    File: i6937en.pdf page 44
+    Text: 32
+SOIL ORGANIC CARBON  the hidden potential
+4 · MEASURING,
+ACCOUNTING,
+REPORTING
+AND VERIFYING SOC
+©FAO/Hoang Dinh Nam
+
+  Rank 3: 0.6951 similarity
+    Source: FAO - Soil Organic Carbon: The Hidden Potential
+    File: i6937en.pdf page 90
+    Text: 78
+SOIL ORGANIC CARBON  the hidden potential
+
+  Rank 4: 0.6857 similarity
+    Source: FAO - Soil Organic Carbon: The Hidden Potential
+    File: i6937en.pdf page 76
+    Text: 64
+SOIL ORGANIC CARBON  the hidden potentialGougoulias, C., Clark, J. M. & Shaw, L. J. 2014. The role of soil microbes in the
+global carbon cycle: tr...
+
+  Rank 5: 0.6804 similarity
+    Source: FAO - Soil Organic Carbon: The Hidden Potential
+    File: i6937en.pdf page 78
+    Text: 108(36): 14769-14774.
+Lal, R. 2001. World cropland soils as a source or sink for atmospheric carbon. Advances
+in Agronomy, 71: 145-191.
+Lal, R. 2004....
+
+=== FACET 2: rainfall / water availability ===
+Query: 'low rainfall water availability'
+  Rank 1: 0.5655 similarity
+    Source: IPCC AR6 WGII - Climate Change 2022: Impacts, Adaptation and Vulnerability - Chapter 4: Water
+    File: IPCC_AR6_WGII_Chapter04.pdf page 73
+    Text: 4Water  Chapter 4
+623Box 4.2 | Observed Risks, Projected Impacts and Adaptation Responses to Water Security in Small
+Island States
+AR5 and SR1.5 reco...
+
+  Rank 2: 0.5643 similarity
+    Source: IPCC AR6 WGII - Climate Change 2022: Impacts, Adaptation and Vulnerability - Chapter 4: Water
+    File: IPCC_AR6_WGII_Chapter04.pdf page 77
+    Text: al., 2018b) lead to policies and regulations that reduce water
+insecurity and, when developed appropriately, reduce inequities
+(medium confidence). ...
+
+  Rank 3: 0.559 similarity
+    Source: IPCC AR6 WGII - Climate Change 2022: Impacts, Adaptation and Vulnerability - Chapter 4: Water
+    File: IPCC_AR6_WGII_Chapter04.pdf page 114
+    Text: of the world
+that are already water-stressed or as a result of groundwater depletion in places such as India, North China and the
+northwestern USA. ...
+
+  Rank 4: 0.5535 similarity
+    Source: IPCC AR6 WGII - Climate Change 2022: Impacts, Adaptation and Vulnerability - Chapter 4: Water
+    File: IPCC_AR6_WGII_Chapter04.pdf page 73
+    Text: sk
+of flooding during the wet season, while not decreasing their risk of droughts during dry periods (Aladenola et al., 2016; Gheuens et al.,
+2019)....
+
+  Rank 5: 0.5492 similarity
+    Source: IPCC AR6 WGII - Climate Change 2022: Impacts, Adaptation and Vulnerability - Chapter 4: Water
+    File: IPCC_AR6_WGII_Chapter04.pdf page 113
+    Text: 4Water  Chapter 4
+663in extreme events will be more significant with higher levels of global warming. However, the location and severity
+of floods an...
+
+=== FACET 3: land use / monoculture ===
+Query: 'wheat monoculture biodiversity land use effects'
+  Rank 1: 0.6056 similarity
+    Source: Sistla, Roddy, Williams, Kramer, Stevens, Allison - PLOS ONE - Agroforestry Practices Promote Biodiversity and Natural Resource Diversity in Atlantic Nicaragua
+    File: noaa_24825_DS1.pdf page 10
+    Text: Fig 4. Land use effects on plant species diversity. Effect of land use type (secondary forest (N = 8),
+agroforest (N = 17) and pasture (N = 7)) on thr...
+
+  Rank 2: 0.5908 similarity
+    Source: FAO / UNEP - The State of the World's Forests 2020: Forests, Biodiversity and People    File: ca8642en.pdf page 167
+    Text: owcasing how some countries have
+been able to simultaneously increase both food
+security and forest cover. See FAO (2016b) for the
+lessons learned....
+
+  Rank 3: 0.5746 similarity
+    Source: FAO / UNEP - The State of the World's Forests 2020: Forests, Biodiversity and People    File: ca8642en.pdf page 96
+    Text: CHAPTER 4 PEOPLE, BIODIVERSITY AND FORESTSyields and improve food security but sometimes
+had severe environmental impacts such as
+pollution of water...
+
+  Rank 4: 0.5743 similarity
+    Source: IPCC AR6 WGII - Climate Change 2022: Impacts, Adaptation and Vulnerability - Chapter 4: Water
+    File: IPCC_AR6_WGII_Chapter04.pdf page 95
+    Text: ptions
+(Figure 4.28), including mulching, no tilling or contour farming, has been
+assessed for future effectiveness (eight studies; 49 data points)....
+
+  Rank 5: 0.5715 similarity
+    Source: Sistla, Roddy, Williams, Kramer, Stevens, Allison - PLOS ONE - Agroforestry Practices Promote Biodiversity and Natural Resource Diversity in Atlantic Nicaragua
+    File: noaa_24825_DS1.pdf page 11
+    Text: Fig 5. Land use effects on natural resource diversity. Effect of land use type (secondary forest (N = 8),
+agroforest (N = 17) and pasture (N = 7)) on ...
+
+=== FACET 4: semi-arid / biodiversity / habitat ===
+Query: 'semi-arid biodiversity habitat'
+  Rank 1: 0.6333 similarity
+    Source: FAO (Hudson, N.W.) - Soil and Water Conservation in Semi-Arid Areas (FAO Soils Bulletin No. 57)
+    File: fao_semiarid_soil_water_bulletin57_1987.txt page None
+    Text: There can be no simple answer to this question as a wide range of technical, economic, social and political problems must be examined and resolved.
+
+...
+
+  Rank 2: 0.6087 similarity
+    Source: FAO (Hudson, N.W.) - Soil and Water Conservation in Semi-Arid Areas (FAO Soils Bulletin No. 57)
+    File: fao_semiarid_soil_water_bulletin57_1987.txt page None
+    Text: grazing is controlled. The surrounding white area is denuded of vegetation by overgrazing.
+
+===== t0321e-02.htm =====
+
+Soil and water conservation
+
+
+...
+
+  Rank 3: 0.6005 similarity
+    Source: FAO (Sombroek, Brinkman, Gommes) - Land Degradation in Arid, Semi-Arid and Dry Sub-Humid Areas
+    File: fao_land_degradation_semiarid_1993.txt page None
+    Text: s.
+
+
+ 1.1 What are arid, semi-arid and dry sub-humid areas?
+
+
+ An early classification and delineation is given in Unesco's MAB Technical Note 7 of
+...
+
+  Rank 4: 0.5752 similarity
+    Source: FAO / UNEP - The State of the World's Forests 2020: Forests, Biodiversity and People    File: ca8642en.pdf page 145
+    Text: N, 2018). So far, 25 animals listed as Endangered
+or Vulnerable have been found in the reserve, making
+it an area of global importance (RSCN, 2018)....
+
+  Rank 5: 0.5656 similarity
+    Source: FAO (Sombroek, Brinkman, Gommes) - Land Degradation in Arid, Semi-Arid and Dry Sub-Humid Areas
+    File: fao_land_degradation_semiarid_1993.txt page None
+    Text: e and socially
+
+acceptable.
+
+
+ Combating desertification in drylands needs a holistic
+
+approach to agriculture, livestock, pastures, woodlands, land
+...
+
+=== FINAL MERGED RESULTS ===
+Failed to send telemetry event ClientStartEvent: capture() takes 1 positional argument but 3 were given
+Failed to send telemetry event ClientCreateCollectionEvent: capture() takes 1 positional argument but 3 were given
+Final query: soil organic carbon low soil health | low rainfall water availability | wheat monoculture biodiversity land use effects | semi-arid biodiversity habitat
+Total results returned: 10
+
+Rank 1: 0.7386411428451538 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 8
+  Text: VI
+SOIL ORGANIC CARBON  the hidden potentialEXECUTIVE SUMMARY
+In the presence of climate change, land degradation and biodiversity loss, soils have
+b...
+
+Rank 2: 0.7185753583908081 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 44
+  Text: 32
+SOIL ORGANIC CARBON  the hidden potential
+4 · MEASURING,
+ACCOUNTING,
+REPORTING
+AND VERIFYING SOC
+©FAO/Hoang Dinh Nam...
+
+Rank 3: 0.6951195001602173 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 90
+  Text: 78
+SOIL ORGANIC CARBON  the hidden potential...
+
+Rank 4: 0.6856909394264221 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 76
+  Text: 64
+SOIL ORGANIC CARBON  the hidden potentialGougoulias, C., Clark, J. M. & Shaw, L. J. 2014. The role of soil microbes in the
+global carbon cycle: tr...
+
+Rank 5: 0.6804218292236328 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 78
+  Text: 108(36): 14769-14774.
+Lal, R. 2001. World cropland soils as a source or sink for atmospheric carbon. Advances
+in Agronomy, 71: 145-191.
+Lal, R. 2004....
+
+Rank 6: 0.6786296963691711 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 26
+  Text: 14
+SOIL ORGANIC CARBON  the hidden potentialWith ongoing losses in belowground microbial diversity, understanding relationships
+between soil biodiver...
+
+Rank 7: 0.6651449203491211 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 74
+  Text: S., Sokol, N. W., Templer, P. H., Treseder, K. K., Welker J. M. & Bradford, M. A. 2016. 
+Quantifying global soil carbon losses in response to warming. ...
+
+Rank 8: 0.6626771092414856 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 58
+  Text: 46
+SOIL ORGANIC CARBON  the hidden potential
+5 · SOC MANAGEMENT
+FOR SUSTAINABLE
+FOOD PRODUCTION
+AND CLIMATE CHANGE
+MITIGATION
+AND ADAPTATION
+©...
+
+Rank 9: 0.6588995456695557 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 10
+  Text: VIII
+SOIL ORGANIC CARBON  the hidden potential
+ACKNOWLEDGEMENTS
+The preparation of the “Soil Organic Carbon: the hidden potential” book has benefitted...       
+
+Rank 10: 0.6428003311157227 similarity
+  Source: FAO - Soil Organic Carbon: The Hidden Potential
+  File: i6937en.pdf page 70
+  Text: 58
+SOIL ORGANIC CARBON  the hidden potential
+6 · WHAT NEXT?
+POINTS FOR
+CONSIDERATION
+©FAO/Matteo Sala...
+
+=== ANALYSIS ===
+
+A. Facet relevance analysis:
+  SOC / soil health: {'FAO'}
+  rainfall / water availability: {'IPCC AR6 WGII'}
+  land use / monoculture: {'IPCC AR6 WGII', 'FAO / UNEP', 'Sistla, Roddy, Williams, Kramer, Stevens, Allison - PLOS ONE'}
+  semi-arid / biodiversity / habitat: {'FAO (Hudson, N.W.)', 'FAO / UNEP', 'FAO (Sombroek, Brinkman, Gommes)'}
+
+B. Target document presence in facets:
+  IPCC AR6 WGII: found in ['rainfall / water availability', 'land use / monoculture']
+  SOFO 2020: not found in any facet
+  FAO: found in ['SOC / soil health', 'land use / monoculture', 'semi-arid / biodiversity / habitat']
+  Beketov: not found in any facet
+  Rybicki: not found in any facet
+  Sistla: found in ['land use / monoculture']
+
+C. Source tracking from facets to final:
+  Sources in facets: {'IPCC AR6 WGII', 'FAO / UNEP', 'Sistla, Roddy, Williams, Kramer, Stevens, 
+(.venv) PS C:\Users\Administrator\Desktop\darukaa\backend> 
+
+
+
+
+
+
+
+
+
