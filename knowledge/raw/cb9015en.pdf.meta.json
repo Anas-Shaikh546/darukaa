@@ -1,0 +1,14 @@
+{
+  "source": "FAO / Global Soil Partnership (GSP Secretariat and ITPS)",
+  "title": "Global Soil Organic Carbon Map (GSOCmap) v.1.6 - Technical Report",
+  "source_url": "https://doi.org/10.4060/cb9015en",
+  "year": 2022,
+  "document_type": "technical_report",
+  "topic": "Technical documentation of the Global Soil Organic Carbon Map (GSOCmap v.1.6), including methodology, data sources, capacity development, and country-contributed digital soil mapping used to estimate global soil organic carbon stocks",
+  "variables": [
+    "soil_organic_carbon",
+    "soil_quality",
+    "soil_health"
+  ],
+  "location_scope": "global"
+}

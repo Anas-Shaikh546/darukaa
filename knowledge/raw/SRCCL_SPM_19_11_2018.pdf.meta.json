@@ -1,0 +1,17 @@
+{
+  "source": "IPCC",
+  "title": "Special Report on Climate Change, Desertification, Land Degradation, Sustainable Land Management, Food Security, and Greenhouse gas fluxes in Terrestrial Ecosystems - Summary for Policymakers (First Draft for Expert and Government Review)",
+  "source_url": null,
+  "year": 2018,
+  "document_type": "policy_report",
+  "topic": "Draft assessment of land-atmosphere interactions under climate change, covering desertification, land degradation, sustainable land management, and food security, with adaptation and mitigation response options",
+  "variables": [
+    "land_use",
+    "drought",
+    "soil_quality",
+    "water_availability",
+    "ecosystem_productivity",
+    "vegetation"
+  ],
+  "location_scope": "global"
+}

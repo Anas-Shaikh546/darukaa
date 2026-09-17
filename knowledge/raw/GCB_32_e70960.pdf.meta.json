@@ -1,0 +1,18 @@
+{
+  "source": "Rubeaud, Beillouin, Köthke, Six, Walder, Schievano & Kay",
+  "title": "Global Bias-Aware Synthesis of Meta-Analyses Reveals Agroforestry's Potential for Improving Soil Health",
+  "source_url": "https://doi.org/10.1111/gcb.70960",
+  "year": 2026,
+  "document_type": "systematic_review",
+  "topic": "Bias-adjusted global quantitative synthesis of 26 meta-analyses (1590 primary studies) evaluating the effects of agroforestry systems on soil organic carbon, chemical/physical/biological soil quality, water regulation, nutrient leaching, and erosion control",
+  "variables": [
+    "agroforestry",
+    "soil_organic_carbon",
+    "soil_health",
+    "soil_quality",
+    "soil_moisture",
+    "water_quality",
+    "water_availability"
+  ],
+  "location_scope": "global"
+}

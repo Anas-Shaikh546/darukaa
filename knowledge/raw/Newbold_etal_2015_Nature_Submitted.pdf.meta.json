@@ -1,0 +1,16 @@
+{
+  "source": "Newbold et al.",
+  "title": "Global land-use impacts on local terrestrial biodiversity",
+  "source_url": "https://www.nature.com/articles/nature14324",
+  "year": 2015,
+  "document_type": "research_paper",
+  "topic": "Quantitative global analysis of local terrestrial biodiversity responses (species richness, total abundance, rarefaction-based richness) to land use and related pressures, based on a terrestrial assemblage database spanning 78 countries",
+  "variables": [
+    "land_use",
+    "biodiversity",
+    "species_richness",
+    "habitat_diversity",
+    "habitat_fragmentation"
+  ],
+  "location_scope": "global"
+}

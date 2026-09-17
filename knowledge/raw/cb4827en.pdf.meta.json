@@ -1,0 +1,15 @@
+{
+  "source": "FAO & UNEP",
+  "title": "Global assessment of soil pollution - Summary for policy makers",
+  "source_url": "https://doi.org/10.4060/cb4827en",
+  "year": 2021,
+  "document_type": "assessment_report",
+  "topic": "Global assessment of the state, sources, and impacts of soil pollution (including heavy metals such as Pb, Cd, Cs, Hg, Cu, As) on soil health, food security, and ecosystems, with policy recommendations",
+  "variables": [
+    "pollution",
+    "soil_quality",
+    "soil_health",
+    "water_quality"
+  ],
+  "location_scope": "global"
+}

@@ -1,0 +1,19 @@
+{
+  "SOIL": [
+    ["SOC", "Soil Structure", "Water Retention", "Plant Survival", "Vegetation", "Habitat Quality", "Biodiversity"],
+    ["SOC", "Soil Biology"]
+  ],
+  "LAND_USE": [
+    ["Land-use intensity", "Habitat fragmentation", "Habitat connectivity", "Species movement", "Species richness"]
+  ],
+  "OTHER": [
+    ["Habitat loss", "biodiversity pressure"]
+  ],
+  "RAINFALL": [
+    ["Rainfall", "Water availability", "Vegetation productivity"],
+    ["Rainfall", "Water availability", "Species survival", "Biodiversity"]
+  ],
+  "POLLUTION": [
+    ["Pollution", "Soil/water quality", "Organism health", "Species abundance", "Biodiversity"]
+  ]
+}

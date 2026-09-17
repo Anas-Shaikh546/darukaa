@@ -1,341 +1,274 @@
-# Darukaa — Biodiversity Intelligence Engine
-
-Darukaa is a biodiversity intelligence system engineered to provide environmental recommendations strictly grounded in peer-reviewed scientific evidence.
-
-The system models complex environmental conditions by reasoning across multiple interacting factors: soil health, water availability, land use, climate, habitat dynamics, and overall biodiversity.
-
-To eliminate AI hallucinations and ensure strict scientific integrity, Darukaa implements a decoupled architecture. Rather than relying on a Large Language Model (LLM) to generate environmental facts from parametric memory, Darukaa retrieves relevant, unedited passages directly from verified scientific documents and preserves full provenance metadata throughout the processing pipeline.
+**🌿 Darukaa — Biodiversity Intelligence**
+*Transforming multi-faceted environmental observations into verifiable, scientifically grounded ecological strategies.*
 
 ---
 
-## Architectural Philosophy & Core Principles
+**Executive Overview**
 
-Environmental decision-making carries real-world risks when systems rely on ungrounded generative outputs. Darukaa strictly separates **Evidence Retrieval** from **System Reasoning**.
+Environmental systems operate through intricately linked ecological pathways rather than isolated metrics. A drop in soil organic carbon destabilizes soil architecture, compromising moisture retention and jeopardizing vegetation survival. Shifts in rainfall dictate regional water availability, while intense land-use patterns exacerbate habitat fragmentation, restricting species migration.
 
-```
-Environmental Input -> Evidence Retrieval Pipeline -> Scientific Grounding -> Reasoning & Recommendations
-
-```
-
-This structural separation provides three critical guarantees:
-
-1. **Traceability:** Every scientific claim links directly to its original publication, section, and page number.
-2. **Inspectability:** Retrieved evidence can be audited and verified before any downstream reasoning occurs.
-3. **Factual Integrity:** Source text is ingested and indexed verbatim. No scientific passage is generated, paraphrased, or synthesized during ingestion.
+**Darukaa** is a domain-specific Retrieval-Augmented Generation (RAG) system engineered to navigate these complex environmental dynamics. By pairing structured environmental parameters with deterministic ecological relationship graphs and scientific document retrieval, Darukaa bypasses generic, ungrounded advice. The platform evaluates multi-variable conditions to yield auditable, evidence-backed interventions and continuous monitoring frameworks.
 
 ---
 
-## Foundation Layer Architecture
-
-The foundational milestone of Darukaa delivers a deterministic, provenance-aware evidence retrieval engine.
+### **System Architecture & Core Methodology**
 
 ```
-                  [ Environmental Input ]
-                             │
-                             ▼
-                        [ FastAPI ]
-                             │
-                             ▼
-                    [ Query Construction ]
-                             │
-                             ▼
-                     [ ChromaDB Vector ]
-                             │
-                             ▼
-              [ Facet-based Evidence Retrieval ]
-                             │
-                             ▼
-                [ Scientific Chunks + Scores ]
-                             │
-                             ▼
-              [ Original Text + Provenance Sidecar ]
-                             │
-                             ▼
-                      [ JSON Response ]
+                         ┌─────────────────────┐
+                         │       User          │
+                         │ Environmental Query │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │   FastAPI Backend   │
+                         │ Conversation Layer  │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Context Extraction │
+                         │ SOC / Rainfall /    │
+                         │ Land Use / etc.     │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                    ┌──────────────────────────────┐
+                    │       Retrieval Layer        │
+                    │                              │
+                    │ Facet-based scientific      │
+                    │ retrieval from ChromaDB      │
+                    └──────────────┬───────────────┘
+                                   │
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │   Curated Relationship Graph │
+                    │                              │
+                    │ Environmental relationships │
+                    │ + ecological pathways        │
+                    └──────────────┬───────────────┘
+                                   │
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │   Multi-Metric Reasoning     │
+                    │                              │
+                    │ Variables → Relationships   │
+                    │ → Intervention → Metrics    │
+                    └──────────────┬───────────────┘
+                                   │
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │ Scientific Evidence          │
+                    │ Verification & Validation    │
+                    └──────────────┬───────────────┘
+                                   │
+                                   ▼
+              ┌─────────────────────────────────────────┐
+              │             Darukaa UI                  │
+              │                                         │
+              │ Understanding → Reasoning → Evidence   │
+              │ → Recommendation → Monitoring          │
+              └─────────────────────────────────────────┘
 
 ```
 
-The foundation layer explicitly avoids generating predictions, qualitative summaries, or environmental recommendations. Its sole mandate is returning immutable scientific evidence matching a target environmental state.
+The system operates across a hybrid pipeline combining non-probabilistic ecological pathways with vector-backed document retrieval:
+
+* **Scientific RAG Layer:** Powered by ChromaDB, the vector database indexes **2,735 chunked segments** across **16 foundational scientific source files**, including peer-reviewed literature and reports from the FAO, IPCC, Global Soil Partnership, *Nature*, *PNAS*, *PLOS ONE*, *Ecology Letters*, and *Scientific Advances*.
+* **Facet-Based Retrieval Strategy:** To prevent high-variance vector searches, incoming inputs are decomposed into discrete environmental facets (e.g., *Soil Organic Carbon*, *Rainfall/Water*, *Land-Use Intensity*, *Habitat/Biodiversity*). Each facet executes an independent lookup, followed by a deterministic round-robin merge to unify evidence without biasing rank by query phrasing.
+* **Deterministic Relationship Graph:** Multi-metric reasoning relies on explicit, curated ecological networks rather than unconstrained language model outputs. Interventions map across connected nodes:
+
+$$\text{SOC} \longrightarrow \text{Soil Structure} \longrightarrow \text{Water Retention} \longrightarrow \text{Plant Survival} \longrightarrow \text{Vegetation} \longrightarrow \text{Habitat Quality} \longrightarrow \text{Biodiversity}$$
+
+$$\text{Land-Use Intensity} \longrightarrow \text{Habitat Fragmentation} \longrightarrow \text{Connectivity} \longrightarrow \text{Species Movement} \longrightarrow \text{Species Richness}$$
+
+$$\text{Rainfall} \longrightarrow \text{Water Availability} \longrightarrow \text{Species Survival} \longrightarrow \text{Biodiversity}$$
+
+* **Verification & Validation Engine:** Before output delivery, candidate recommendations undergo deterministic checks:
+1. **Variable Thresholding:** Ensures $\ge 3$ distinct environmental parameters are present.
+2. **Evidence Grounding & Verification:** Confirms candidate claims exhibit substantial lexical alignment with retrieved sources.
+3. **Numerical Integrity:** Strips unsupported quantitative projections unless explicitly present in the evidence text.
+4. **Bounded Retry Protocol:** Executes a single retrieval retry with expanded context windows (`top_k=20`) if initial verification fails.
+
+
 
 ---
 
-## Technical Stack & Implementation Details
+### **Multi-Turn Conversational Interaction Model**
 
-### Current Stack Capabilities
-
-* **Backend Framework:** FastAPI with strongly typed Pydantic models.
-* **Document Processing:** Custom extraction pipelines for `.pdf` and `.txt` files with paragraph-aware chunking.
-* **Metadata & Provenance:** `.meta.json` sidecar verification enforcing strict schema compliance.
-* **Vector Indexing:** ChromaDB backed by local Sentence-Transformer embeddings.
-* **Idempotency:** SHA-256 chunk hashing based on content and page offsets to eliminate duplicate indexing.
-* **Filtering & Ranking:** Multi-facet query decomposition, bibliography noise filtering, and similarity scoring.
-* **Quality & CI:** Automated PyTest test suite executed via GitHub Actions.
-
----
-
-## Multi-Facet Evidence Retrieval Engine
-
-Standard semantic vector searches often fail on multi-variable environmental inputs, allowing a dominant factor (e.g., severe soil degradation) to swamp secondary signals (e.g., local rainfall or canopy cover).
-
-Darukaa solves this by constructing independent query facets across distinct environmental dimensions, querying them separately against ChromaDB, and merging the resulting candidate sets.
+When provided with incomplete environmental parameters, the interaction model prompts for missing context to satisfy the minimum variable threshold before generating analytical recommendations.
 
 ```
-                      [ Environmental State ]
-                                 │
-     ┌───────────────────┬───────┴───────────┬───────────────────┐
-     ▼                   ▼                   ▼                   ▼
-[ Facet 1: Soil ]  [ Facet 2: Climate ]  [ Facet 3: Land ]  [ Facet 4: Habitat ]
-  SOC / Health       Rainfall / Water     Monoculture Impact   Semi-Arid Dynamics
-     │                   │                   │                   │
-     └───────────────────┼───────────────────┴───────────────────┘
-                         ▼
-             [ Merged Evidence Set ]
+User:
+"My soil organic carbon is 0.8% and rainfall is low."
+
+Darukaa:
+"To reason about biodiversity impacts, what is the current land use or crop system?"
+
+User:
+"I grow wheat as a monoculture."
+
+Darukaa:
+[Executes multi-variable context processing, facet retrieval, graph traversal, verification, and output formatting]
 
 ```
 
-### Primary Retrieval Facets
-
-1. **Soil Dynamics:** Soil organic carbon (SOC), moisture, pH, and soil biology.
-2. **Hydrological Conditions:** Annual rainfall categories, seasonal water stress, and local availability.
-3. **Land-Use Patterns:** Agricultural monoculture, land degradation, and land-cover transitions.
-4. **Ecosystem & Habitat:** Semi-arid ecosystems, habitat fragmentation, and species richness.
-
 ---
 
-## Repository Structure
+### **System Components & Repository Topology**
 
 ```
 darukaa/
 │
 ├── backend/
 │   ├── app/
-│   │   ├── api/
-│   │   │   └── evidence.py             # Retrieval API endpoints
-│   │   ├── models/                     # Core domain entities
-│   │   ├── schemas/
-│   │   │   └── environment.py          # Pydantic input/output validation
 │   │   ├── services/
-│   │   │   └── retrieval/
-│   │   │       ├── ingest.py           # Document chunking & vector ingestion
-│   │   │       └── retriever.py        # Facet search & similarity scoring
-│   │   └── main.py                     # FastAPI application entrypoint
-│   ├── tests/                          # PyTest suite
-│   ├── requirements.txt
-│   └── .env.example
+│   │   │   ├── retrieval/
+│   │   │   │   ├── ingest.py
+│   │   │   │   └── retriever.py
+│   │   │   │
+│   │   │   └── reasoning.py
+│   │   │
+│   │   └── main.py
+│   │
+│   ├── diagnostic.py
+│   └── ...
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── routes/
+│   │   ├── lib/
+│   │   └── data/
+│   │
+│   ├── package.json
+│   └── ...
 │
 ├── knowledge/
-│   ├── raw/                            # PDF/TXT source files & sidecars
-│   ├── processed/                      # Staged chunk representations
-│   └── chroma/                         # Vector database persistent storage
+│   └── raw/
+│       ├── scientific PDFs
+│       ├── reports
+│       └── metadata sidecars
 │
-├── .github/
-│   └── workflows/
-│       └── ci.yml                      # Automated CI pipeline
-│
-├── .gitignore
 └── README.md
 
 ```
 
----
+#### **Technology Stack**
 
-## Grounded Knowledge Base & Provenance
-
-### Source Selection
-
-The repository indexes verified publications from reputable international bodies and peer-reviewed journals, including:
-
-* Food and Agriculture Organization of the United Nations (FAO)
-* Intergovernmental Panel on Climate Change (IPCC)
-* FAO/UNEP Joint Reports
-* Peer-reviewed ecosystem, biodiversity, and agronomic literature (e.g., *Sistla et al.*, *Rybicki et al.*, *Beketov et al.*)
-
-### Provenance Sidecar Requirements
-
-Every document added to `knowledge/raw/` must include a corresponding `.meta.json` file. Unannotated documents are rejected at ingestion time to protect source validity. Missing values are explicitly set to `null` rather than imputed.
-
-```json
-// Example: knowledge/raw/fao_soil_report.pdf.meta.json
-{
-  "source": "FAO",
-  "title": "State of Soil Organic Carbon Resources in Dryland Ecosystems",
-  "source_url": "https://www.fao.org/documents/card/en/c/example",
-  "year": 2024,
-  "document_type": "report",
-  "topic": "soil_health",
-  "variables": ["soil_organic_carbon", "soil_moisture"],
-  "location_scope": "global"
-}
-
-```
-
-Every chunk indexed inside ChromaDB carries complete metadata attributes: `source`, `title`, `source_url`, `source_file`, `page`, `year`, `document_type`, `topic`, `variables`, `location_scope`, and a deterministic `chunk_id`.
+* **Backend Framework:** Python, FastAPI, Pydantic, ChromaDB, Uvicorn
+* **Frontend Instrument UI:** React, TypeScript, Vite
+* **Knowledge Store:** Scientific PDFs, JSON sidecar metadata (tracking `source`, `title`, `source_url`, `year`, `document_type`, `topic`, `variables`, `location_scope`), and embedded vector indices.
 
 ---
 
-## Ingestion Pipeline & Idempotency
+### **Example Execution & Analytical Output**
 
-Source text is processed locally to maintain data integrity.
+#### **Input State**
 
-```
-Source Document (.pdf / .txt)
-        │
-        ▼
-Extract Verbatim Text
-        │
-        ▼
-Paragraph-Aware Chunking
-        │
-        ▼
-Attach Sidecar Provenance
-        │
-        ▼
-Compute Deterministic SHA-256 ID
-        │
-        ▼
-Generate Sentence Embeddings
-        │
-        ▼
-Upsert into ChromaDB
+* **Soil:** Organic Carbon = 0.8%
+* **Climate:** Rainfall Category = Low
+* **Land Use:** Wheat Monoculture
 
-```
+#### **System Output**
 
-Chunk identifiers are constructed using a deterministic SHA-256 hash:
+* **Identified Variables:** `SOC`, `Rainfall`, `Land-use intensity`
+* **Grounded Reasoning Paths:**
+* $\text{SOC} \rightarrow \text{Soil Structure} \rightarrow \text{Water Retention} \rightarrow \text{Plant Survival} \rightarrow \text{Vegetation} \rightarrow \text{Habitat Quality} \rightarrow \text{Biodiversity}$
+* $\text{Rainfall} \rightarrow \text{Water Availability} \rightarrow \text{Species Survival} \rightarrow \text{Biodiversity}$
+* $\text{Land-use Intensity} \rightarrow \text{Habitat Fragmentation} \rightarrow \text{Habitat Connectivity} \rightarrow \text{Species Movement} \rightarrow \text{Species Richness}$
 
-$$\text{Chunk ID} = \text{SHA256}(\text{source\_file} + \text{page} + \text{chunk\_text})$$
 
-Re-running ingestion updates existing vector entries in place without bloating the index with redundant records.
+* **Validated Recommendation:** *Consider implementing agroforestry to improve ecosystem outcomes.*
+* **Impacted Metrics:** Soil organic carbon, Soil moisture, Habitat diversity, Species richness.
+* **Retrieved Evidence:** Matched chunks from indexed literature covering agroforestry practices, soil organic carbon dynamics, and agricultural diversification.
+* **Structured Monitoring Framework:**
+
+| Metric | Horizon | Rationale |
+| --- | --- | --- |
+| **Soil Organic Carbon** | Medium | Tracks soil-health response to organic matter inputs. |
+| **Soil Moisture** | Short | Monitors water retention improvements in dry conditions. |
+| **Habitat Diversity** | Medium | Evaluates structural vegetation strata restoration. |
+| **Species Richness** | Long | Gauges macro-level biodiversity recovery over time. |
 
 ---
 
-## API Reference & Usage
+### **Local Deployment & Diagnostic Procedures**
 
-### Start local server
+#### **1. Environment Initialization**
 
 ```bash
+# Clone the codebase
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd darukaa
+
+# Backend setup
 cd backend
+.\.venv\Scripts\Activate.ps1
 uvicorn app.main:app --reload
 
-```
-
-### Health Check
-
-`GET /health`
-
-**Response:** `200 OK`
-
----
-
-### Evidence Retrieval Endpoint
-
-`POST /api/v1/evidence/retrieve`
-
-#### Request Body Schema
-
-The endpoint accepts optional environmental metrics. Unspecified fields remain `null` to ensure the system never makes implicit default assumptions.
-
-```json
-{
-  "soil": {
-    "organic_carbon": 0.3,
-    "pH": null,
-    "moisture": null
-  },
-  "climate": {
-    "rainfall_category": "low",
-    "rainfall_mm_year": null
-  },
-  "land": {
-    "land_use": "wheat monoculture",
-    "land_cover": null
-  },
-  "location": {
-    "region": "semi-arid",
-    "latitude": null,
-    "longitude": null
-  }
-}
+# Frontend setup (in a separate terminal)
+cd frontend
+npm install
+npm run dev
 
 ```
 
-#### Example Response
+* Backend Service: `http://localhost:8000`
+* Interface Application: `http://localhost:8080`
 
-```json
-{
-  "query": "soil organic carbon low soil health | low rainfall water availability | wheat monoculture biodiversity land use effects | semi-arid biodiversity habitat",
-  "results": [
-    {
-      "rank": 1,
-      "chunk_id": "a1b2c3d4e5f6...",
-      "distance": 0.214,
-      "similarity": 0.786,
-      "text": "Continuous monoculture practices in semi-arid zones significantly reduce soil organic matter accumulation, leading to accelerated biological degradation...",
-      "source": "FAO",
-      "title": "State of Soil Organic Carbon Resources in Dryland Ecosystems",
-      "source_url": "https://www.fao.org/documents/card/en/c/example",
-      "source_file": "knowledge/raw/fao_soil_report.pdf",
-      "page": 17,
-      "year": 2024,
-      "document_type": "report",
-      "topic": "soil_health",
-      "variables": ["soil_organic_carbon", "soil_moisture"],
-      "location_scope": "global"
-    }
-  ]
-}
+#### **2. Knowledge Ingestion Pipeline**
 
-```
-
-*Note on Scoring:* The returned `similarity` metric is calculated as $1 - \text{distance}$ from the embedding vector space. It reflects semantic proximity to the query facet, not scientific consensus or factual confidence.
-
----
-
-## Verification & Automated Testing
-
-The evidence retrieval layer includes an automated PyTest suite covering:
-
-* Input schema validation & optional key parsing
-* Provenance metadata integrity
-* Text extraction & deterministic SHA-256 generation
-* Ingestion idempotency & duplicate prevention
-* Endpoint integration & response structure checks
-* Citation noise and reference list filtering
-
-To run the test suite locally:
+To parse source literature and populate the vector store:
 
 ```bash
 cd backend
-pytest
+.\.venv\Scripts\Activate.ps1
+python -m app.services.retrieval.ingest
+
+```
+
+#### **3. Retrieval Diagnostics**
+
+To run system checks across vector indices, metadata completeness, and merging behavior:
+
+```bash
+cd backend
+.\.venv\Scripts\Activate.ps1
+python diagnostic.py
 
 ```
 
 ---
 
-## Future Roadmap: Scientific Reasoning Engine
+### **Hackathon Capability Verification**
 
-With the core evidence retrieval layer operational, development is shifting toward the multi-variable reasoning framework:
+| Hackathon Requirement | Capability Status | Implementation Mechanism |
+| --- | --- | --- |
+| **Conversational AI** | ✅ | FastAPI multi-turn message state management |
+| **Scientific RAG** | ✅ | Multi-facet querying against ChromaDB vector store |
+| **Vector Database** | ✅ | Indexed collection (2,735 chunks / 16 sources) |
+| **Environmental Knowledge Layer** | ✅ | Peer-reviewed PDFs, environmental reports, and JSON sidecars |
+| **Soil Health Reasoning** | ✅ | Explicit SOC and soil-structure pathways |
+| **Land-Use Reasoning** | ✅ | Monoculture and land-use intensity evaluation |
+| **Climate/Rainfall Reasoning** | ✅ | Precipitation and moisture-availability tracking |
+| **Biodiversity Reasoning** | ✅ | Habitat fragmentation, connectivity, and species richness paths |
+| **Multi-Variable Reasoning** | ✅ | Combined traversal across $\ge 3$ environmental parameters |
+| **Evidence-Backed Interventions** | ✅ | RAG-derived recommendation matching |
+| **Scientific Provenance** | ✅ | Chunk-level attribution (source, title, page, URL) |
+| **Clarifying Questions** | ✅ | Dynamic context checking prior to execution |
+| **Multi-Turn Context** | ✅ | State persistence across clarification cycles |
+| **Impacted Metrics** | ✅ | Plausible ecosystem outcome mapping |
+| **Monitoring Horizons** | ✅ | Short, medium, and long-term indicator tracking |
+| **Structured Output** | ✅ | Pydantic-validated JSON contract outputs |
+| **Numerical Claim Validation** | ✅ | Automated regex matching and non-grounded token stripping |
+| **Deterministic Evidence Validation** | ✅ | Lexical coverage checks against retrieved evidence chunks |
 
-```
-[ Environmental Profile ]
-           │
-           ▼
-[ Missing Metric Assessment ]
-           │
-           ▼
-[ Multi-Facet Evidence Retrieval ]
-           │
-           ▼
-[ Scientific Knowledge Graph Mapping ]
-           │
-           ▼
-[ Multi-Variable Ecological Reasoning ]
-           │
-           ▼
-[ Evidence Verification & Constraint Check ]
-           │
-           ▼
-[ Grounded Actionable Recommendation ]
+---
 
-```
+### **Future Extensions**
 
-Subsequent phases will construct a curated ecological graph linking retrieved evidence nodes across causal chains (e.g., *Soil Organic Carbon Loss → Reduced Soil Moisture Retention → Degraded Vegetation Resilience → Habitat Decline*), providing fully interpretable recommendations backed by explicit citations.
+1. **Geographic Coordinates:** Integrating spatial overlays to map retrieval results to specific geographic bounds.
+2. **Earth Observation Integration:** Supplementing user inputs with satellite-derived vegetative indices and land-cover data.
+3. **Localized Species Inventories:** Incorporating regional biodiversity datasets to refine ecological impact assessments.
+4. **Expanded Graph Traversal:** Broadening ecological node definitions to encompass macro-climate and hydrology models.

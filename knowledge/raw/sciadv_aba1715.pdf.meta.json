@@ -1,0 +1,18 @@
+{
+  "source": "Tamburini, Bommarco, Wanger, Kremen, van der Heijden, Liebman & Hallin",
+  "title": "Agricultural diversification promotes multiple ecosystem services without compromising yield",
+  "source_url": "https://doi.org/10.1126/sciadv.aba1715",
+  "year": 2020,
+  "document_type": "meta_analysis",
+  "topic": "Second-order meta-analysis of 98 meta-analyses (5160 original studies) assessing the impact of agricultural diversification practices (e.g., intercropping, crop rotation, reduced tillage, organic amendment) on above- and belowground biodiversity, ecosystem services, and crop yield",
+  "variables": [
+    "intercropping",
+    "monoculture",
+    "biodiversity",
+    "soil_quality",
+    "soil_health",
+    "ecosystem_productivity",
+    "pollution"
+  ],
+  "location_scope": "global"
+}

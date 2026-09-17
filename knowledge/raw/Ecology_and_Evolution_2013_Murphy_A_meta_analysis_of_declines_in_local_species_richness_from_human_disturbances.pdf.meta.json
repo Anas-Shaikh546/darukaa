@@ -1,0 +1,16 @@
+{
+  "source": "Murphy & Romanuk",
+  "title": "A meta-analysis of declines in local species richness from human disturbances",
+  "source_url": "https://doi.org/10.1002/ece3.909",
+  "year": 2013,
+  "document_type": "meta_analysis",
+  "topic": "Global meta-analysis quantifying declines in local species richness caused by human disturbances (land-use change, habitat loss/fragmentation, species invasions, nutrient addition, temperature increase) across terrestrial and aquatic biomes",
+  "variables": [
+    "species_richness",
+    "biodiversity",
+    "land_use",
+    "habitat_fragmentation",
+    "habitat_diversity"
+  ],
+  "location_scope": "global"
+}
