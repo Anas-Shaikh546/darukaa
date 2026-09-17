@@ -280,8 +280,22 @@ def build_records(
     return records
 
 
+_collection_cache = None
+
+
 def get_collection():
-    """Create the Chroma collection and its embedding function."""
+    """Create (once) and reuse the Chroma collection and its embedding function.
+
+    Cached at module level so the expensive SentenceTransformer model load
+    and Chroma client creation happen only once per process, not on every
+    call. main.py calls this once eagerly at application startup so that
+    cost is paid during boot, not inside a request handler.
+    """
+    global _collection_cache
+
+    if _collection_cache is not None:
+        return _collection_cache
+
     print(
         "DARUKAA DEBUG: importing chromadb",
         flush=True,
@@ -326,7 +340,8 @@ def get_collection():
         flush=True,
     )
 
-    return collection
+    _collection_cache = collection
+    return _collection_cache
 
 
 def ingest_all(

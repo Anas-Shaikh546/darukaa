@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import conversation, evidence, recommendation
+from app.services.retrieval.ingest import get_collection
 
 app = FastAPI(
     title="Darukaa",
@@ -21,6 +22,17 @@ app.add_middleware(
 app.include_router(evidence.router)
 app.include_router(recommendation.router)
 app.include_router(conversation.router)
+
+
+@app.on_event("startup")
+def _warm_up_retrieval_resources() -> None:
+    """Load the Chroma collection + embedding model once at boot.
+
+    Without this, get_collection() runs for the first time inside a
+    request handler, and the SentenceTransformer load can exceed the
+    request timeout in production.
+    """
+    get_collection()
 
 
 @app.get("/health")
