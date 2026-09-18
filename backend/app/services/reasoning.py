@@ -183,72 +183,16 @@ def _run_verifier(
         return False
 
     stop_words = {
-        "the",
-        "a",
-        "an",
-        "and",
-        "or",
-        "to",
-        "in",
-        "on",
-        "at",
-        "of",
-        "for",
-        "with",
-        "by",
-        "as",
-        "is",
-        "are",
-        "was",
-        "were",
-        "be",
-        "been",
-        "being",
-        "have",
-        "has",
-        "had",
-        "do",
-        "does",
-        "did",
-        "can",
-        "could",
-        "should",
-        "would",
-        "may",
-        "might",
-        "must",
-        "will",
-        "shall",
-        "this",
-        "that",
-        "these",
-        "those",
-        "it",
-        "its",
-        "from",
-        "into",
-        "via",
-        "using",
-        "consider",
-        "implementing",
-        "improve",
-        "improving",
-        "ecosystem",
-        "outcomes",
-        "detected",
-        "variables",
-        "linked",
-        "curated",
-        "relationships",
-        "selected",
-        "intervention",
-        "claim",
-        "evidence",
-        "support",
-        "supports",
-        "supporting",
-        "conditions",
-        "under",
+        "the", "a", "an", "and", "or", "to", "in", "on", "at", "of",
+        "for", "with", "by", "as", "is", "are", "was", "were", "be",
+        "been", "being", "have", "has", "had", "do", "does", "did",
+        "can", "could", "should", "would", "may", "might", "must",
+        "will", "shall", "this", "that", "these", "those", "it", "its",
+        "from", "into", "via", "using", "consider", "implementing",
+        "improve", "improving", "ecosystem", "outcomes", "detected",
+        "variables", "linked", "curated", "relationships", "selected",
+        "intervention", "claim", "evidence", "support", "supports",
+        "supporting", "conditions", "under",
     }
 
     claim_words = {
@@ -416,70 +360,38 @@ def _select_evidence(
 
     intervention_terms = {
         "agroforestry": {
-            "agroforestry",
-            "agroforestry practices",
-            "tree",
-            "trees",
-            "biodiversity",
-            "soil",
-            "organic carbon",
+            "agroforestry", "agroforestry practices", "tree", "trees",
+            "biodiversity", "soil", "organic carbon",
         },
         "intercropping": {
-            "intercropping",
-            "intercrop",
-            "crop diversification",
-            "diversification",
-            "biodiversity",
-            "soil",
-            "water",
+            "intercropping", "intercrop", "crop diversification",
+            "diversification", "biodiversity", "soil", "water",
         },
         "cover cropping": {
-            "cover crop",
-            "cover cropping",
-            "vegetation",
-            "soil",
-            "organic carbon",
-            "biodiversity",
+            "cover crop", "cover cropping", "vegetation", "soil",
+            "organic carbon", "biodiversity",
         },
     }
 
     variable_terms = {
         "SOC": {
-            "soil",
-            "soil organic carbon",
-            "organic carbon",
-            "carbon",
+            "soil", "soil organic carbon", "organic carbon", "carbon",
             "soil health",
         },
         "Rainfall": {
-            "rainfall",
-            "rain",
-            "water",
-            "water availability",
+            "rainfall", "rain", "water", "water availability",
             "water retention",
         },
         "Land-use intensity": {
-            "land use",
-            "land-use",
-            "monoculture",
-            "crop",
-            "cropping",
-            "habitat",
-            "fragmentation",
-            "biodiversity",
+            "land use", "land-use", "monoculture", "crop", "cropping",
+            "habitat", "fragmentation", "biodiversity",
         },
         "Biodiversity": {
-            "biodiversity",
-            "species",
-            "species richness",
-            "habitat",
+            "biodiversity", "species", "species richness", "habitat",
         },
     }
 
-    target_terms = intervention_terms.get(
-        intervention,
-        {intervention},
-    )
+    target_terms = intervention_terms.get(intervention, {intervention})
 
     for variable in variables:
         target_terms = target_terms.union(
@@ -514,21 +426,10 @@ def _select_evidence(
             except (TypeError, ValueError):
                 pass
 
-        scored_results.append(
-            (
-                score,
-                len(matched_terms),
-                index,
-                hit,
-            )
-        )
+        scored_results.append((score, len(matched_terms), index, hit))
 
     scored_results.sort(
-        key=lambda item: (
-            item[0],
-            item[1],
-            -item[2],
-        ),
+        key=lambda item: (item[0], item[1], -item[2]),
         reverse=True,
     )
 
@@ -581,10 +482,7 @@ def _build_recommendation(
         if len(metrics) == 2:
             metric_text = f"{metrics[0]} and {metrics[1]}"
         else:
-            metric_text = (
-                ", ".join(metrics[:-1])
-                + f", and {metrics[-1]}"
-            )
+            metric_text = ", ".join(metrics[:-1]) + f", and {metrics[-1]}"
     elif metrics:
         metric_text = metrics[0]
     else:
@@ -592,14 +490,22 @@ def _build_recommendation(
 
     context_parts: List[str] = []
 
-    if "SOC" in variables:
-        context_parts.append("low soil-carbon conditions")
+    # ── SOC context: use actual value, not hardcoded "low" ──
+    if "SOC" in variables and env.soil and env.soil.organic_carbon is not None:
+        soc = env.soil.organic_carbon
+        if soc < 1.0:
+            context_parts.append("low soil-carbon conditions")
+        elif soc < 2.5:
+            context_parts.append("moderate soil-carbon conditions")
+        else:
+            context_parts.append("high soil-carbon conditions")
+    elif "SOC" in variables:
+        context_parts.append("the current soil-carbon conditions")
 
     if "Rainfall" in variables:
         rainfall = (
             str(env.climate.rainfall_category).lower()
-            if env.climate
-            and env.climate.rainfall_category is not None
+            if env.climate and env.climate.rainfall_category is not None
             else ""
         )
 
@@ -622,13 +528,10 @@ def _build_recommendation(
         if len(context_parts) == 1:
             context_text = context_parts[0]
         elif len(context_parts) == 2:
-            context_text = (
-                f"{context_parts[0]} and {context_parts[1]}"
-            )
+            context_text = f"{context_parts[0]} and {context_parts[1]}"
         else:
             context_text = (
-                ", ".join(context_parts[:-1])
-                + f", and {context_parts[-1]}"
+                ", ".join(context_parts[:-1]) + f", and {context_parts[-1]}"
             )
 
         return (
@@ -655,19 +558,13 @@ def _generate_recommendation(
     """Generate recommendation output, reasoning, metrics, and evidence payload."""
     variables = _detect_variables(env)
 
-    retrieval_result = retrieve(
-        env,
-        top_k=retrieval_top_k,
-    )
+    retrieval_result = retrieve(env, top_k=retrieval_top_k)
 
     results = retrieval_result.get("results", [])
 
     graph = _load_graph()
 
-    relationships = _traverse_graph(
-        graph,
-        variables,
-    )
+    relationships = _traverse_graph(graph, variables)
 
     intervention = _select_intervention(env)
 
@@ -679,17 +576,12 @@ def _generate_recommendation(
         for node in path
     }
 
-    if (
-        "SOC" in variables
-        or "SOC" in flattened_graph_nodes
-    ):
+    if "SOC" in variables or "SOC" in flattened_graph_nodes:
         impacted_metrics.append(
             ImpactMetric(
                 metric="soil_organic_carbon",
                 estimate="potentially improved",
-                basis=(
-                    "intervention increases organic matter and root biomass"
-                ),
+                basis="intervention increases organic matter and root biomass",
             )
         )
 
@@ -773,10 +665,7 @@ def _generate_recommendation(
         ),
     )
 
-    monitoring_plan = _generate_monitoring_plan(
-        variables,
-        relationships,
-    )
+    monitoring_plan = _generate_monitoring_plan(variables, relationships)
 
     recommendation = _build_recommendation(
         env=env,
@@ -801,13 +690,9 @@ def _validate(
     output: RecommendationOutput,
 ) -> Tuple[bool, Dict[str, Any]]:
     """Perform deterministic validation across variables, evidence grounding, and claims."""
-    vars_ok, vars_msg = _validate_variable_count(
-        output.reasoning.variables
-    )
+    vars_ok, vars_msg = _validate_variable_count(output.reasoning.variables)
 
-    ev_present_ok, ev_msg = _validate_evidence_presence(
-        output.evidence
-    )
+    ev_present_ok, ev_msg = _validate_evidence_presence(output.evidence)
 
     rec_text, num_ok, num_msg = _validate_numerical_claims(
         output.recommendation,
@@ -824,16 +709,9 @@ def _validate(
     else:
         recommendation_verified = False
 
-    evidence_grounded = (
-        ev_present_ok
-        and recommendation_verified
-    )
+    evidence_grounded = ev_present_ok and recommendation_verified
 
-    all_pass = (
-        vars_ok
-        and evidence_grounded
-        and num_ok
-    )
+    all_pass = vars_ok and evidence_grounded and num_ok
 
     ver_msg = (
         "Deterministic evidence verification: supported"
@@ -847,12 +725,7 @@ def _validate(
         "numeric_claims_ok": num_ok,
         "evidence_verification_ok": recommendation_verified,
         "llm_verification_ok": recommendation_verified,
-        "messages": [
-            vars_msg,
-            ev_msg,
-            num_msg,
-            ver_msg,
-        ],
+        "messages": [vars_msg, ev_msg, num_msg, ver_msg],
     }
 
     return all_pass, detail
@@ -862,11 +735,7 @@ def reason(
     env: EnvironmentInput,
 ) -> RecommendationOutput:
     """Public entry point: generate, validate, retry at most once, and fallback on failure."""
-    output = _generate_recommendation(
-        env,
-        RETRIEVAL_TOP_K,
-        EVIDENCE_K,
-    )
+    output = _generate_recommendation(env, RETRIEVAL_TOP_K, EVIDENCE_K)
 
     variables = output.reasoning.variables
 
@@ -880,9 +749,7 @@ def reason(
 
     if not all_pass:
         output = _generate_recommendation(
-            env,
-            RETRY_RETRIEVAL_TOP_K,
-            RETRY_EVIDENCE_K,
+            env, RETRY_RETRIEVAL_TOP_K, RETRY_EVIDENCE_K
         )
 
         all_pass, detail = _validate(output)
@@ -896,10 +763,7 @@ def reason(
             "; ".join(detail["messages"]),
         )
 
-    output.confidence = _calculate_confidence(
-        output.evidence
-    )
-
+    output.confidence = _calculate_confidence(output.evidence)
     output.validation = detail
 
     return output

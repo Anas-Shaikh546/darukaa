@@ -102,10 +102,10 @@ def extract_environmental_info(message: str) -> EnvironmentInput:
     ):
         climate_kwargs["rainfall_category"] = RainfallCategory.medium
 
-    # Rainfall mm/year
+    # Rainfall mm/year — support both "per year" and "annually"
     rain_mm_match = re.search(
         r"([0-9]+(?:\.[0-9]+)?)\s*"
-        r"(?:mm|millimeters)\s*(?:/|\s*per\s*)?\s*year",
+        r"(?:mm|millimeters)\s*(?:/|\s*per\s*)?\s*(?:year|annum|annually)",
         text,
     )
 
@@ -114,6 +114,14 @@ def extract_environmental_info(message: str) -> EnvironmentInput:
             climate_kwargs["rainfall_mm_year"] = float(rain_mm_match.group(1))
         except ValueError:
             pass
+
+    # Infer low rainfall from drought/water-stress mentions if no category set yet
+    if "rainfall_category" not in climate_kwargs:
+        if re.search(
+            r"\b(?:drought|dryland|water.?scarce|water.?stress|severe\s+drought|extreme\s+drought)\b",
+            text,
+        ):
+            climate_kwargs["rainfall_category"] = RainfallCategory.low
 
     # 3. Land use / crop pattern
     # Known agricultural and land-use phrases
@@ -127,6 +135,9 @@ def extract_environmental_info(message: str) -> EnvironmentInput:
             land_kwargs["land_use"] = "wheat monoculture"
         else:
             land_kwargs["land_use"] = "monoculture"
+
+    elif "maize monoculture" in text:
+        land_kwargs["land_use"] = "maize monoculture"
 
     elif "agroforestry" in text:
         land_kwargs["land_use"] = "agroforestry"
@@ -142,6 +153,12 @@ def extract_environmental_info(message: str) -> EnvironmentInput:
 
     elif "intensive farming" in text or "intensive agriculture" in text:
         land_kwargs["land_use"] = "intensive agriculture"
+
+    elif re.search(
+        r"\bdegraded\s+(?:cropland|land|farmland|field)\b|\bcropland\b",
+        text,
+    ):
+        land_kwargs["land_use"] = "degraded cropland"
 
     else:
         # Check generic phrases like "grow <crop>" or "farming <type>"

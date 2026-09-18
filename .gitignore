@@ -13,7 +13,7 @@ __pycache__/
 
 # ChromaDB
 knowledge/chroma/
-
+knowledge/chroma_onnx/
 # Local development / generated files
 *.log
 
