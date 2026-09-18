@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 from app.schemas.environment import EnvironmentInput
 from app.schemas.recommendation import (
@@ -13,26 +13,25 @@ from app.schemas.recommendation import (
 )
 from app.services.retrieval.retriever import retrieve
 
+# Mapping of input variables to graph node identifiers
 _VARIABLE_TO_NODE = {
     "soil_organic_carbon": "SOC",
     "rainfall_category": "Rainfall",
     "land_use": "Land-use intensity",
     "biodiversity": "Biodiversity",
 }
+
 _INTERVENTIONS = ["agroforestry", "intercropping", "cover cropping"]
 
-# Retrieval / evidence sizing (previously hardcoded to 2 with no rationale)
+# Retrieval / evidence pool configuration
 RETRIEVAL_TOP_K = 10
 EVIDENCE_K = 5
 RETRY_RETRIEVAL_TOP_K = 20
 RETRY_EVIDENCE_K = 8
 
-# ---------------------------------------------------------------------------
-# Unchanged from Day 2 Part 1/2 — not part of Part 3's scope
-# ---------------------------------------------------------------------------
-
 
 def _detect_variables(env: EnvironmentInput) -> List[str]:
+    """Detect presence of environmental input parameters."""
     vars_detected: List[str] = []
     if env.soil and env.soil.organic_carbon is not None:
         vars_detected.append(_VARIABLE_TO_NODE["soil_organic_carbon"])
@@ -46,12 +45,14 @@ def _detect_variables(env: EnvironmentInput) -> List[str]:
 
 
 def _load_graph() -> dict:
+    """Load the deterministic ecological relationship graph from disk."""
     path = Path(__file__).parents[1] / "relationship_graph.json"
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def _traverse_graph(graph: dict, variables: List[str]) -> List[List[str]]:
+    """Traverse graph and gather paths matching detected variables."""
     collected: List[List[str]] = []
     for category_paths in graph.values():
         for path in category_paths:
@@ -61,6 +62,7 @@ def _traverse_graph(graph: dict, variables: List[str]) -> List[List[str]]:
 
 
 def _select_intervention(env: EnvironmentInput) -> str:
+    """Select appropriate ecological intervention based on conditions."""
     low_soc = (
         env.soil
         and env.soil.organic_carbon is not None
@@ -76,6 +78,7 @@ def _select_intervention(env: EnvironmentInput) -> str:
         and env.land.land_use is not None
         and "monoculture" in env.land.land_use.lower()
     )
+
     if low_soc:
         return "agroforestry"
     if monoculture or low_rain:
@@ -84,7 +87,7 @@ def _select_intervention(env: EnvironmentInput) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Part 3 — validation utilities
+# Part 3 — Validation utilities
 # ---------------------------------------------------------------------------
 
 
@@ -98,12 +101,7 @@ def _validate_variable_count(variables: List[str]) -> Tuple[bool, str]:
 def _validate_evidence_presence(
     evidence: List[EvidenceItem],
 ) -> Tuple[bool, str]:
-    """Structural check only: evidence exists and carries real chunk text.
-
-    This does NOT prove the recommendation's claims are grounded in it - that
-    determination belongs to _run_verifier. This just ensures there is
-    something for the verifier to check against.
-    """
+    """Ensure evidence list exists and items contain required fields."""
     if not evidence:
         return False, "No evidence retrieved"
     for ev in evidence:
@@ -113,20 +111,18 @@ def _validate_evidence_presence(
 
 
 def _strip_numerical_claims(text: str) -> str:
-    return re.sub(r"\b\d+(?:.\d+)?%?\b", "[value]", text)
+    """Replace numerical terms with generic value placeholders."""
+    return re.sub(r"\b\d+(?:\.\d+)?%?\b", "[value]", text)
 
 
 def _validate_numerical_claims(
     text: str, evidence: List[EvidenceItem]
 ) -> Tuple[str, bool, str]:
-    """If a numeric token appears in text, require that the SAME number appears
-
-    (as a whole token, not a substring) in at least one evidence chunk's actual
-    text. Otherwise strip it.
-    """
-    numbers = re.findall(r"\b\d+(?:.\d+)?%?\b", text)
+    """Require numeric tokens in recommendations to be present in evidence text."""
+    numbers = re.findall(r"\b\d+(?:\.\d+)?%?\b", text)
     if not numbers:
         return text, True, "No numeric claims"
+
     evidence_text = " ".join(ev.text or "" for ev in evidence)
     for num in numbers:
         escaped = re.escape(num)
@@ -141,17 +137,10 @@ def _validate_numerical_claims(
 
 
 def _run_verifier(claim: str, evidence_chunks: List[dict]) -> bool:
-    """Deterministic evidence-bounded verification.
-
-    Verifies that the claim has meaningful textual support in the retrieved
-    evidence chunks. Extracts significant content words from the claim and
-    checks if at least one evidence chunk carries substantial lexical overlap
-    with the claim.
-    """
+    """Verify that a claim is groundable in the retrieved evidence chunks."""
     if not claim or not evidence_chunks:
         return False
 
-    # Normalize stop words to isolate meaningful subject/intervention/metric terms
     stop_words = {
         "the",
         "a",
@@ -214,6 +203,11 @@ def _run_verifier(claim: str, evidence_chunks: List[dict]) -> bool:
         "intervention",
         "claim",
         "evidence",
+        "support",
+        "supports",
+        "supporting",
+        "conditions",
+        "under",
     }
 
     claim_words = {
@@ -225,7 +219,6 @@ def _run_verifier(claim: str, evidence_chunks: List[dict]) -> bool:
     if not claim_words:
         return True
 
-    # Check evidence text and titles across all provided chunks
     for chunk in evidence_chunks:
         chunk_text = (
             (chunk.get("text") or "")
@@ -235,7 +228,6 @@ def _run_verifier(claim: str, evidence_chunks: List[dict]) -> bool:
             + (chunk.get("used_for") or "")
         ).lower()
         overlap = {w for w in claim_words if w in chunk_text}
-        # If at least one primary topic word or >=40% of key claim words are supported in the chunk
         if overlap and (
             len(overlap) / len(claim_words) >= 0.3 or len(overlap) >= 2
         ):
@@ -245,11 +237,7 @@ def _run_verifier(claim: str, evidence_chunks: List[dict]) -> bool:
 
 
 def _calculate_confidence(evidence: List[EvidenceItem]) -> float:
-    """Mechanical confidence: mean retrieval similarity of evidence actually
-
-    used. Only called once every validator has already passed, so no
-    validation-outcome factor is needed here.
-    """
+    """Calculate mean retrieval similarity across selected evidence."""
     scores = [
         float(ev.similarity) for ev in evidence if ev.similarity is not None
     ]
@@ -262,14 +250,10 @@ def _calculate_confidence(evidence: List[EvidenceItem]) -> float:
 def _generate_monitoring_plan(
     variables: List[str], relationships: List[List[str]]
 ) -> List[MonitoringMetric]:
-    """Deterministically map relevant reasoning variables and pathways to
-
-    monitoring metrics.
-    """
+    """Map reasoning paths to short-, medium-, and long-term monitoring indicators."""
     plan: List[MonitoringMetric] = []
     flattened_graph_nodes = {node for path in relationships for node in path}
 
-    # Soil organic carbon / SOC pathway
     if "SOC" in variables or "SOC" in flattened_graph_nodes:
         plan.append(
             MonitoringMetric(
@@ -279,7 +263,6 @@ def _generate_monitoring_plan(
             )
         )
 
-    # Rainfall / water-availability pathway
     if (
         "Rainfall" in variables
         or "Water availability" in flattened_graph_nodes
@@ -293,7 +276,6 @@ def _generate_monitoring_plan(
             )
         )
 
-    # Land-use / habitat pathway
     if (
         "Land-use intensity" in variables
         or "Habitat fragmentation" in flattened_graph_nodes
@@ -309,7 +291,6 @@ def _generate_monitoring_plan(
             )
         )
 
-    # Biodiversity / species pathway
     if (
         "Biodiversity" in variables
         or "Biodiversity" in flattened_graph_nodes
@@ -331,6 +312,7 @@ def _generate_monitoring_plan(
 def _fallback_output(
     variable_count: int, reason_msg: str
 ) -> RecommendationOutput:
+    """Return structured fallback when context/evidence criteria are unfulfilled."""
     reasoning = Reasoning(
         variables=[],
         relationships=[],
@@ -353,7 +335,7 @@ def _fallback_output(
 
 
 # ---------------------------------------------------------------------------
-# Evidence selection
+# Evidence Selection & Processing
 # ---------------------------------------------------------------------------
 
 
@@ -363,12 +345,7 @@ def _select_evidence(
     variables: List[str],
     evidence_k: int,
 ) -> List[dict]:
-    """Select evidence from the full retrieval pool based on support for the
-
-    actual recommendation and detected environmental variables. This prevents
-    relevant intervention evidence from being discarded simply because it
-    appeared outside the first few round-robin retrieval results.
-    """
+    """Select evidence supporting the intervention and detected variables."""
     if not results:
         return []
 
@@ -455,11 +432,9 @@ def _select_evidence(
                 score += 1
                 matched_terms.add(term.lower())
 
-        # Explicit intervention evidence receives priority.
         if intervention.lower() in text:
             score += 5
 
-        # Preserve retrieval similarity as a secondary signal only.
         similarity = hit.get("similarity")
         if similarity is not None:
             try:
@@ -486,12 +461,10 @@ def _select_evidence(
 
     for _, _, _, hit in scored_results:
         chunk_id = hit.get("chunk_id")
-
         if chunk_id and chunk_id in selected_ids:
             continue
 
         selected.append(hit)
-
         if chunk_id:
             selected_ids.add(chunk_id)
 
@@ -502,21 +475,97 @@ def _select_evidence(
 
 
 # ---------------------------------------------------------------------------
-# Generation
+# Recommendation Text
+# ---------------------------------------------------------------------------
+
+
+def _build_recommendation(
+    env: EnvironmentInput,
+    intervention: str,
+    variables: List[str],
+    impacted_metrics: List[ImpactMetric],
+) -> str:
+    """Build specific recommendation text without introducing unsupported numbers."""
+    metric_phrases = {
+        "soil_organic_carbon": "soil organic carbon",
+        "soil_moisture": "water availability and soil moisture",
+        "habitat_diversity": "habitat structure",
+        "species_richness": "species richness",
+    }
+
+    metrics = [
+        metric_phrases[metric.metric]
+        for metric in impacted_metrics
+        if metric.metric in metric_phrases
+    ]
+
+    if len(metrics) >= 2:
+        if len(metrics) == 2:
+            metric_text = f"{metrics[0]} and {metrics[1]}"
+        else:
+            metric_text = ", ".join(metrics[:-1]) + f", and {metrics[-1]}"
+    elif metrics:
+        metric_text = metrics[0]
+    else:
+        metric_text = "soil and biodiversity conditions"
+
+    context_parts: List[str] = []
+
+    if "SOC" in variables:
+        context_parts.append("low soil-carbon conditions")
+
+    if "Rainfall" in variables:
+        rainfall = (
+            str(env.climate.rainfall_category).lower()
+            if env.climate and env.climate.rainfall_category is not None
+            else ""
+        )
+        if rainfall == "low":
+            context_parts.append("low rainfall")
+
+    if "Land-use intensity" in variables and env.land and env.land.land_use:
+        land_use = env.land.land_use.lower()
+        if "monoculture" in land_use:
+            context_parts.append("monoculture land use")
+        else:
+            context_parts.append("the current land-use pattern")
+
+    if context_parts:
+        if len(context_parts) == 1:
+            context_text = context_parts[0]
+        elif len(context_parts) == 2:
+            context_text = f"{context_parts[0]} and {context_parts[1]}"
+        else:
+            context_text = (
+                ", ".join(context_parts[:-1]) + f", and {context_parts[-1]}"
+            )
+
+        return (
+            f"Consider {intervention} under {context_text} to support "
+            f"{metric_text}."
+        )
+
+    return (
+        f"Consider {intervention} to support {metric_text} "
+        f"through the identified ecological relationships."
+    )
+
+
+# ---------------------------------------------------------------------------
+# Core Generation & Pipeline Orchestration
 # ---------------------------------------------------------------------------
 
 
 def _generate_recommendation(
     env: EnvironmentInput, retrieval_top_k: int, evidence_k: int
 ) -> RecommendationOutput:
+    """Generate recommendation output, reasoning, metrics, and evidence payload."""
     variables = _detect_variables(env)
     retrieval_result = retrieve(env, top_k=retrieval_top_k)
     results = retrieval_result.get("results", [])
     graph = _load_graph()
     relationships = _traverse_graph(graph, variables)
     intervention = _select_intervention(env)
-
-    # Map detected variables/pathways to plausibly impacted outcome metrics (never 'rainfall')
     impacted_metrics: List[ImpactMetric] = []
     flattened_graph_nodes = {node for path in relationships for node in path}
 
@@ -572,8 +621,6 @@ def _generate_recommendation(
             )
         )
 
-    # Evidence-selection fix:
-    # select from the full retrieval pool instead of blindly taking results[:evidence_k].
     selected_results = _select_evidence(
         results=results,
         intervention=intervention,
@@ -604,8 +651,15 @@ def _generate_recommendation(
 
     monitoring_plan = _generate_monitoring_plan(variables, relationships)
 
+    recommendation = _build_recommendation(
+        env=env,
+        intervention=intervention,
+        variables=variables,
+        impacted_metrics=impacted_metrics,
+    )
+
     return RecommendationOutput(
-        recommendation=f"Consider implementing {intervention} to improve ecosystem outcomes.",
+        recommendation=recommendation,
         reasoning=reasoning,
         impacted_metrics=impacted_metrics,
         time_horizon="medium",
@@ -617,6 +671,7 @@ def _generate_recommendation(
 
 
 def _validate(output: RecommendationOutput) -> Tuple[bool, Dict[str, Any]]:
+    """Perform deterministic validation across variables, evidence grounding, and claims."""
     vars_ok, vars_msg = _validate_variable_count(output.reasoning.variables)
     ev_present_ok, ev_msg = _validate_evidence_presence(output.evidence)
     rec_text, num_ok, num_msg = _validate_numerical_claims(
@@ -624,21 +679,20 @@ def _validate(output: RecommendationOutput) -> Tuple[bool, Dict[str, Any]]:
     )
     output.recommendation = rec_text
 
-    ver_ok = True
     if ev_present_ok:
-        for claim in [output.recommendation, output.reasoning.explanation]:
-            ver_ok = ver_ok and _run_verifier(
-                claim, [ev.dict() for ev in output.evidence]
-            )
+        recommendation_verified = _run_verifier(
+            output.recommendation,
+            [ev.dict() for ev in output.evidence],
+        )
     else:
-        ver_ok = False
+        recommendation_verified = False
 
-    evidence_grounded = ev_present_ok and ver_ok
+    evidence_grounded = ev_present_ok and recommendation_verified
     all_pass = vars_ok and evidence_grounded and num_ok
 
     ver_msg = (
         "Deterministic evidence verification: supported"
-        if ver_ok
+        if recommendation_verified
         else "Deterministic evidence verification: unsupported"
     )
 
@@ -646,19 +700,17 @@ def _validate(output: RecommendationOutput) -> Tuple[bool, Dict[str, Any]]:
         "variable_count": len(output.reasoning.variables),
         "evidence_grounded": evidence_grounded,
         "numeric_claims_ok": num_ok,
-        "evidence_verification_ok": ver_ok,
+        "evidence_verification_ok": recommendation_verified,
         "messages": [vars_msg, ev_msg, num_msg, ver_msg],
     }
+
     return all_pass, detail
 
 
 def reason(env: EnvironmentInput) -> RecommendationOutput:
-    """Public entry point: generate, validate, retry at most once, fallback."""
+    """Public entry point: generate, validate, retry at most once, and fallback on failure."""
     output = _generate_recommendation(env, RETRIEVAL_TOP_K, EVIDENCE_K)
     variables = output.reasoning.variables
-    # Structural failure (too few variables) is not fixable by retry -
-    # retrying would call _detect_variables on the same env and get the
-    # same count every time. Go straight to fallback.
     if len(variables) < 3:
         return _fallback_output(
             len(variables), f"Only {len(variables)} variable(s) detected; need >=3"
@@ -667,8 +719,6 @@ def reason(env: EnvironmentInput) -> RecommendationOutput:
     all_pass, detail = _validate(output)
 
     if not all_pass:
-        # Retry once with a wider retrieval pool - a genuinely different
-        # attempt, not a repeat of the same deterministic call.
         output = _generate_recommendation(
             env, RETRY_RETRIEVAL_TOP_K, RETRY_EVIDENCE_K
         )

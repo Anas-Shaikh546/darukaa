@@ -1,39 +1,88 @@
-**🌿 Darukaa — Biodiversity Intelligence Platform**
+# 🌿 Darukaa — Biodiversity Intelligence Platform
 
-*Transforming Multi-Faceted Environmental Observations into Verifiable, Scientifically Grounded Ecological Strategies*
+> **Transforming Multi-Faceted Environmental Observations into Verifiable, Scientifically Grounded Ecological Strategies**
 
----
+## 🚀 Live Platform & Access Points
 
-### **Live Platform Architecture & Access Points**
+| Service               | Description                              | Endpoint                                                                     |
+| --------------------- | ---------------------------------------- | ---------------------------------------------------------------------------- |
+| **Web Application**   | Interactive React + TypeScript interface | [darukaa-rho.vercel.app](https://darukaa-rho.vercel.app/)                    |
+| **API Service**       | Production FastAPI engine                | [darukaa-d6d1.onrender.com](https://darukaa-d6d1.onrender.com)               |
+| **API Health Check**  | Service availability endpoint            | [darukaa-d6d1.onrender.com/health](https://darukaa-d6d1.onrender.com/health) |
+| **GitHub Repository** | Source code and system architecture      | [Anas-Shaikh546/darukaa](https://github.com/Anas-Shaikh546/darukaa)          |
 
-* **Web Application Interface:** [https://darukaa-rho.vercel.app/](https://darukaa-rho.vercel.app/)
-* **API Service Engine:** [https://darukaa-d6d1.onrender.com](https://darukaa-d6d1.onrender.com)
-* **API Health Monitor:** [https://darukaa-d6d1.onrender.com/health](https://darukaa-d6d1.onrender.com/health) `(Returns: {"status": "ok"})`
+Darukaa is deployed as a cloud-based environmental intelligence platform with a **React + TypeScript frontend hosted on Vercel** and a **FastAPI backend hosted on Render**.
 
-Darukaa operates as a high-reliability, cloud-deployed intelligence platform, orchestrating a **Vercel-hosted React single-page application** and a high-performance **FastAPI microservice** hosted on Render.
-
----
-
-### **Executive Overview**
-
-Ecological dynamics are inherently multi-variate. A shift in soil organic carbon cascades directly into soil structural integrity and hydrological retention. Rainfall patterns regulate water availability and vegetation stress, while land-use intensity drives habitat fragmentation, spatial connectivity loss, and biodiversity decline.
-
-**Darukaa** is an enterprise-grade Retrieval-Augmented Generation (RAG) platform purpose-built to execute deterministic, evidence-backed reasoning across complex environmental variables.
-
-**System Integration Architecture:**
-
-* **Context Extraction Engine:** Parses multi-variable environmental parameters.
-* **Facet-Based ChromaDB RAG:** Retrieves precise domain-specific scientific literature.
-* **Deterministic Ecological Graph:** Enforces structured pathway traversal.
-* **Multi-Metric Reasoning Framework:** Maps interventions against complex ecological variables.
-* **Verification & Validation Pipeline:** Guarantees empirical evidence grounding and strips unsupported numerical claims.
-* **Monitoring Matrix Generator:** Formulates temporal indicator plans.
+The backend connects the conversational layer, scientific retrieval pipeline, deterministic ecological reasoning engine, evidence validation, and environmental monitoring logic.
 
 ---
 
-### **System Architecture Diagram**
+## 🌍 Executive Overview
 
+Environmental systems are interconnected. Changes in **soil organic carbon, rainfall, land use, water availability, habitat structure, and biodiversity** can influence one another through multiple ecological pathways.
+
+Darukaa is designed to **reason across these relationships** rather than treating environmental observations as isolated variables.
+
+### Core Platform Capabilities
+
+* 🔬 **Scientific Retrieval:** Facet-based retrieval from a curated environmental knowledge corpus.
+* 🕸️ **Curated Ecological Relationship Graph:** Explicit and traceable ecological reasoning pathways.
+* ⚖️ **Multi-Variable Reasoning:** Connects multiple environmental variables before producing recommendations.
+* 🛡️ **Evidence Verification:** Validates recommendations against retrieved scientific evidence.
+* 💬 **Conversational Clarification:** Requests missing environmental context instead of guessing.
+* 📊 **Environmental Monitoring:** Maps recommendations to short-, medium-, and long-term indicators.
+
+> **Goal:** Turn environmental observations into transparent, evidence-grounded ecological strategies that users can inspect, understand, and monitor.
+
+---
+
+# 🧠 How Darukaa Reasons
+
+Darukaa follows a structured intelligence pipeline:
+
+```text
+Environmental Query
+        ↓
+Context Extraction
+        ↓
+Scientific Retrieval
+        ↓
+Ecological Relationships
+        ↓
+Multi-Metric Reasoning
+        ↓
+Evidence Validation
+        ↓
+Recommendation
+        ↓
+Monitoring
 ```
+
+### Core Intelligence Components
+
+1. **Context Extraction Engine**
+   Identifies environmental variables from the user's description, including soil organic carbon, rainfall, land-use intensity, biodiversity, and environmental disturbance.
+
+2. **Facet-Based Scientific Retrieval**
+   Decomposes environmental queries into domain-specific facets and retrieves relevant scientific material from the ChromaDB knowledge layer.
+
+3. **Curated Ecological Relationship Graph**
+   Uses explicit ecological relationships to construct interpretable reasoning pathways rather than unrestricted model-generated reasoning chains.
+
+4. **Multi-Metric Reasoning Framework**
+   Connects multiple environmental variables and maps their relationships to ecological outcomes.
+
+5. **Evidence Verification Pipeline**
+   Checks whether the generated recommendation is supported by retrieved scientific evidence.
+
+6. **Monitoring Matrix**
+   Maps recommendations to measurable environmental indicators across short-, medium-, and long-term horizons.
+
+---
+
+# 🏗️ System Architecture
+
+```text
                          ┌─────────────────────┐
                          │        User         │
                          │ Environmental Query │
@@ -48,28 +97,30 @@ Ecological dynamics are inherently multi-variate. A shift in soil organic carbon
                                     ▼
                          ┌─────────────────────┐
                          │ Context Extraction  │
+                         │                     │
                          │ SOC / Rainfall /    │
                          │ Land Use / etc.     │
                          └──────────┬──────────┘
                                     │
                                     ▼
                     ┌──────────────────────────────┐
-                    │       Retrieval Layer        │
+                    │       Scientific RAG         │
                     │                              │
                     │ Facet-based retrieval from   │
-                    │ ChromaDB scientific corpus   │
+                    │ ChromaDB knowledge corpus    │
                     └──────────────┬───────────────┘
                                    │
                                    ▼
                     ┌──────────────────────────────┐
-                    │  Curated Relationship Graph  │
+                    │  Curated Ecological Graph    │
                     │                              │
-                    │ Explicit ecological pathways │
+                    │ Explicit ecological          │
+                    │ relationship pathways        │
                     └──────────────┬───────────────┘
                                    │
                                    ▼
                     ┌──────────────────────────────┐
-                    │     Multi-Metric Reasoning   │
+                    │   Multi-Metric Reasoning     │
                     │                              │
                     │ Variables → Relationships →  │
                     │ Intervention → Metrics       │
@@ -82,148 +133,350 @@ Ecological dynamics are inherently multi-variate. A shift in soil organic carbon
                     └──────────────┬───────────────┘
                                    │
                                    ▼
-             ┌─────────────────────────────────────────┐
-             │              Darukaa UI                 │
-             │                                         │
-             │ Understanding → Reasoning → Evidence   │
-             │ → Recommendation → Monitoring          │
-             └─────────────────────────────────────────┘
-
+              ┌─────────────────────────────────────────┐
+              │              Darukaa UI                 │
+              │                                         │
+              │ Understanding → Reasoning → Evidence   │
+              │ → Recommendation → Monitoring          │
+              └─────────────────────────────────────────┘
 ```
 
 ---
 
-### **Core Methodology & Engineering Standards**
+# 🔬 Core Methodology
 
-#### **1. Scientific RAG Layer**
+## 1. Scientific Knowledge Layer
 
-* **Local Knowledge Engine:** ChromaDB high-density vector store.
-* **Corpus Metrics:** 16 peer-reviewed scientific source files and 2,735 indexed chunks in core development. The production Render cluster hosts **15 indexed sources and 2,698 chunks** (strictly skipping files lacking required provenance metadata sidecars).
-* **Literature Scope:** Peer-reviewed journals and institutional reports covering soil organic carbon, soil health, water availability, precipitation, land use, habitat fragmentation, biodiversity, species richness, agroforestry, environmental disturbance, pollution, and deforestation.
-* **Publisher Sources:** FAO, IPCC, Global Soil Partnership, *Nature*, *PNAS*, *PLOS ONE*, *Ecology Letters*, and *Scientific Advances*.
+Darukaa uses a local **ChromaDB vector knowledge layer** containing scientific publications and institutional environmental reports.
 
-#### **2. Facet-Based Retrieval Engine**
+### Development Corpus
 
-Rather than executing a single high-variance search query, Darukaa decomposes queries into isolated domain facets:
+* **16 scientific source files**
+* **2,735 indexed chunks**
+* Structured provenance metadata for each source
 
-* *Soil Organic Carbon (SOC)*
-* *Rainfall / Water Availability*
-* *Land-Use Intensity*
-* *Habitat Integrity*
-* *Biodiversity & Species Metrics*
-* *Environmental Pollution / Disturbance*
+### Production Corpus
 
-Retrieval outputs are synthesized using a **deterministic round-robin merge protocol**, preventing similarity score bias across disparate search spaces.
+* **15 indexed source files**
+* **2,698 indexed chunks**
+* Provenance-enforced indexing
+* Documents without required metadata sidecars are excluded rather than indexed as anonymous evidence
 
-#### **3. Curated Ecological Relationship Graph**
+### Knowledge Domains
 
-The engine enforces non-probabilistic, explicit relationship mapping to eliminate AI hallucinations while handling context-dependent ecological pressures:
+The corpus covers:
 
-$$\text{SOC} \longrightarrow \text{Soil Structure} \longrightarrow \text{Water Retention} \longrightarrow \text{Plant Survival} \longrightarrow \text{Vegetation} \longrightarrow \text{Habitat Quality} \longrightarrow \text{Biodiversity}$$
+* Soil organic carbon
+* Soil health
+* Soil biodiversity
+* Water availability
+* Rainfall and precipitation
+* Land-use intensity
+* Habitat fragmentation
+* Habitat connectivity
+* Biodiversity
+* Species richness
+* Agroforestry
+* Agricultural diversification
+* Environmental disturbance
+* Pollution
+* Deforestation
+* Forest management
 
-$$\text{Land-Use Intensity} \longrightarrow \text{Habitat Fragmentation} \longrightarrow \text{Habitat Connectivity} \longrightarrow \text{Species Movement} \longrightarrow \text{Species Richness}$$
-
-$$\text{Rainfall} \longrightarrow \text{Water Availability} \longrightarrow \text{Species Survival} \longrightarrow \text{Biodiversity}$$
-
-#### **4. Verification & Validation Framework**
-
-* **Context Sufficiency Check:** Enforces a minimum constraint of $\ge 3$ environmental variables before authorizing recommendation generation.
-* **Evidence Grounding Verification:** Validates that outputs map directly to retrieved chunk payloads.
-* **Numerical Claim Integrity:** Automatically redacts quantitative targets unsupported by evidence text.
-* **Bounded Retry Protocol:** Executes a single, controlled high-k retrieval attempt (`top_k=20`) if validation constraints are violated.
+The corpus includes scientific literature and institutional publications from sources such as **FAO, IPCC, Global Soil Partnership, PLOS ONE, PNAS, Ecology Letters**, and related environmental research.
 
 ---
 
-### **Interactive Multi-Turn Dialogue Model**
+# 🔎 2. Facet-Based Retrieval Engine
 
-When initial inputs lack sufficient variable density, Darukaa pauses execution to gather parameters:
+Instead of relying on one broad similarity search, Darukaa decomposes an environmental query into meaningful scientific facets.
+
+Example facets include:
+
+* **Soil Organic Carbon**
+* **Rainfall / Water Availability**
+* **Land-Use Intensity**
+* **Habitat Integrity**
+* **Biodiversity / Species Metrics**
+* **Pollution / Environmental Disturbance**
+
+Each facet retrieves relevant scientific material independently.
+
+The results are combined using a **deterministic round-robin merge strategy**, reducing the risk that one facet dominates the final evidence pool solely because its similarity scores are numerically higher.
+
+---
+
+# 🌱 3. Curated Ecological Relationship Graph
+
+Darukaa uses an explicit relationship graph to make ecological reasoning **traceable and interpretable**.
+
+### Soil Carbon Pathway
 
 ```text
-User: 
-"My soil organic carbon is 0.8% and rainfall is low."
-
-Darukaa: 
-"To reason about biodiversity impacts, what is the current land use or crop system?"
-
-User: 
-"I grow wheat as a monoculture."
-
-Darukaa: 
-[Executes full analysis: SOC + Rainfall + Land-Use Intensity]
-
+SOC
+ ↓
+Soil Structure
+ ↓
+Water Retention
+ ↓
+Plant Survival
+ ↓
+Vegetation
+ ↓
+Habitat Quality
+ ↓
+Biodiversity
 ```
+
+### Land-Use Pathway
+
+```text
+Land-Use Intensity
+ ↓
+Habitat Fragmentation
+ ↓
+Habitat Connectivity
+ ↓
+Species Movement
+ ↓
+Species Richness
+```
+
+### Rainfall Pathways
+
+```text
+Rainfall
+ ↓
+Water Availability
+ ├──→ Vegetation Productivity
+ │
+ └──→ Species Survival
+          ↓
+      Biodiversity
+```
+
+These pathways provide a deterministic reasoning structure that can be exposed directly through the user interface.
 
 ---
 
-### **Execution Workflow Example**
+# 🛡️ 4. Verification & Validation Framework
 
-* **User Input Constraints:** Soil Organic Carbon = 0.8% | Rainfall Category = Low | Land Use = Wheat Monoculture
-* **Detected Parameters:** `SOC`, `Rainfall`, `Land-use intensity`
-* **Constructed Pathways:**
-* $\text{SOC} \rightarrow \text{Soil Structure} \rightarrow \text{Water Retention} \rightarrow \text{Plant Survival} \rightarrow \text{Vegetation} \rightarrow \text{Habitat Quality} \rightarrow \text{Biodiversity}$
-* $\text{Rainfall} \rightarrow \text{Water Availability} \rightarrow \text{Species Survival} \rightarrow \text{Biodiversity}$
-* $\text{Land-Use Intensity} \rightarrow \text{Habitat Fragmentation} \rightarrow \text{Habitat Connectivity} \rightarrow \text{Species Movement} \rightarrow \text{Species Richness}$
+Darukaa applies multiple validation constraints before accepting a recommendation.
 
+### 1. Context Sufficiency
 
-* **Validated Recommendation:** *Consider implementing agroforestry to improve ecosystem outcomes.*
-* **Impact Metrics:** Soil organic carbon, Soil moisture, Habitat diversity, Species richness.
+A recommendation requires at least **3 environmental variables**.
 
-**Structured Monitoring Plan:**
+If insufficient information is available, the system asks a clarification question instead of filling in missing values.
 
-| Metric | Horizon | Analytical Rationale |
-| --- | --- | --- |
-| **Soil Organic Carbon** | Medium | Tracks soil-health response to organic matter inputs. |
-| **Soil Moisture** | Short | Monitors water retention capacity in low-rainfall environments. |
-| **Habitat Diversity** | Medium | Evaluates canopy stratification and vegetative structure recovery. |
-| **Species Richness** | Long | Gauges long-term biodiversity stabilization and species recovery. |
+### 2. Evidence Grounding
 
----
+Retrieved scientific evidence must be present before a recommendation is accepted.
 
-### **Step-by-Step User Operation Guide**
+### 3. Recommendation Verification
 
-1. **Access Application Interface:** Navigate to [https://darukaa-rho.vercel.app/](https://darukaa-rho.vercel.app/).
-2. **Submit Environmental Context:** Input initial observation metrics (e.g., *"My soil organic carbon is 0.8%, and rainfall is low"*).
-3. **Fulfill Clarification Prompts:** Provide missing parameter context (e.g., land-use type, cropping systems, or pollution metrics) when requested.
-4. **Verify Parameter Extraction:** Confirm detected variables in the interactive context panel.
-5. **Inspect Pathway Graph:** Review the explicit ecological chain connecting variables to interventions.
-6. **Audit Scientific Provenance:** Validate underlying source literature, titles, chunk IDs, and source URLs.
-7. **Review Intervention Strategy:** Analyze the evidence-backed, contextualized ecological plan.
-8. **Execute Monitoring Strategy:** Deploy suggested metric tracking across designated short, medium, and long-term time horizons.
+The recommendation is checked against retrieved evidence using deterministic lexical evidence verification.
+
+### 4. Numerical Claim Integrity
+
+Unsupported quantitative claims are detected and removed instead of allowing unsupported numbers into the final response.
+
+### 5. Bounded Retry
+
+If validation fails, Darukaa performs **one controlled higher-k retrieval attempt (`k=20`)** before returning a fallback state.
+
+This keeps the reasoning pipeline bounded and predictable.
 
 ---
 
-### **System Deployment Topology**
+# 💬 Interactive Multi-Turn Reasoning
 
-```
-                 INTERNET USER
-                       │
-                       ▼
-            ┌─────────────────────┐
-            │   Vercel Frontend   │
-            │ React + TypeScript  │
-            │       + Vite        │
-            └──────────┬──────────┘
-                       │
-                       │ HTTPS REST API
-                       ▼
-            ┌─────────────────────┐
-            │   Render Backend    │
-            │ FastAPI + Uvicorn   │
-            └──────────┬──────────┘
-                       │
-                       ▼
-            ┌─────────────────────┐
-            │ ChromaDB Knowledge  │
-            │ Scientific Corpus   │
-            └─────────────────────┘
+Darukaa does not force a recommendation when the environmental context is incomplete.
 
+### Example
+
+**User:**
+
+> My soil organic carbon is 0.8% and rainfall is low.
+
+**Darukaa:**
+
+> To provide an evidence-grounded recommendation, we need at least 3 environmental variables. Could you please share your land use or current crop pattern?
+
+**User:**
+
+> The land is under wheat monoculture.
+
+Darukaa combines:
+
+```text
+SOC
++
+Rainfall
++
+Land-Use Intensity
 ```
+
+and executes the complete reasoning pipeline.
+
+This enables **clarification-driven environmental reasoning instead of assumption-driven responses**.
 
 ---
 
-### **Repository & Directory Structure**
+# 🧪 End-to-End Example
 
+## Input Parameters
+
+* **Soil Organic Carbon:** `0.8%`
+* **Rainfall:** `Low`
+* **Land Use:** `Wheat Monoculture`
+
+### Detected Variables
+
+```text
+SOC
+Rainfall
+Land-Use Intensity
 ```
+
+### Constructed Pathways
+
+```text
+SOC
+→ Soil Structure
+→ Water Retention
+→ Plant Survival
+→ Vegetation
+→ Habitat Quality
+→ Biodiversity
+```
+
+```text
+Rainfall
+→ Water Availability
+→ Species Survival
+→ Biodiversity
+```
+
+```text
+Land-Use Intensity
+→ Habitat Fragmentation
+→ Habitat Connectivity
+→ Species Movement
+→ Species Richness
+```
+
+### Validated Recommendation
+
+> **Consider agroforestry under low soil-carbon conditions and monoculture land use to support soil organic carbon, water availability and soil moisture, habitat structure, and species richness.**
+
+### Impacted Metrics & Monitoring Matrix
+
+| Metric                  | Monitoring Horizon | Purpose                                              |
+| ----------------------- | ------------------ | ---------------------------------------------------- |
+| **Soil Organic Carbon** | Medium-term        | Tracks the soil-health response to the intervention. |
+| **Soil Moisture**       | Short-term         | Tracks water availability and retention.             |
+| **Habitat Diversity**   | Medium-term        | Tracks habitat structure and spatial connectivity.   |
+| **Species Richness**    | Long-term          | Tracks the longer-term biodiversity response.        |
+
+---
+
+# 🖥️ User Experience
+
+The Darukaa interface is structured around an explainable intelligence workflow:
+
+```text
+Understanding
+      ↓
+Reasoning
+      ↓
+Scientific Evidence
+      ↓
+Recommendation
+      ↓
+Impact & Monitoring
+```
+
+### Interface Inspection Panels
+
+* **Detected Variables** — extracted directly from user-provided context.
+* **Ecological Pathways** — visual representation of deterministic graph traversal.
+* **Scientific Evidence** — expandable retrieved passages with provenance.
+* **Intervention Plan** — recommendation and impacted ecological metrics.
+* **Monitoring Grid** — short-, medium-, and long-term environmental indicators.
+
+---
+
+# 🚀 Step-by-Step User Guide
+
+1. **Open the Application**
+   Visit [darukaa-rho.vercel.app](https://darukaa-rho.vercel.app/).
+
+2. **Describe the Environmental Situation**
+   Enter observations such as:
+
+   > My soil organic carbon is 0.8%, and rainfall is low.
+
+3. **Provide Additional Context**
+   Answer clarification prompts about land use, crop patterns, or other environmental conditions.
+
+4. **Review Detected Variables**
+   Verify the extracted environmental context in the Understanding panel.
+
+5. **Inspect Ecological Pathways**
+   Follow how environmental variables connect to ecological outcomes.
+
+6. **Inspect Scientific Evidence**
+   Expand evidence items to review retrieved passages and provenance.
+
+7. **Review the Recommendation**
+   Examine the suggested intervention and impacted environmental metrics.
+
+8. **Track Environmental Response**
+   Use the suggested indicators across short-, medium-, and long-term horizons.
+
+---
+
+# ☁️ Deployment Architecture
+
+```text
+                     INTERNET USER
+                           │
+                           ▼
+              ┌────────────────────────┐
+              │    Vercel Frontend     │
+              │                        │
+              │ React + TypeScript     │
+              │ Vite                   │
+              └───────────┬────────────┘
+                          │
+                          │ HTTPS REST API
+                          ▼
+              ┌────────────────────────┐
+              │    Render Backend      │
+              │                        │
+              │ FastAPI + Uvicorn      │
+              └───────────┬────────────┘
+                          │
+                          ▼
+              ┌────────────────────────┐
+              │       ChromaDB         │
+              │ Scientific Knowledge   │
+              │ Corpus                 │
+              └────────────────────────┘
+```
+
+### Production Endpoints
+
+* **Frontend:** https://darukaa-rho.vercel.app/
+* **Backend API:** https://darukaa-d6d1.onrender.com
+* **Health Check:** https://darukaa-d6d1.onrender.com/health → `{"status":"ok"}`
+
+---
+
+# 📁 Repository Structure
+
+```text
 darukaa/
 │
 ├── backend/
@@ -232,12 +485,16 @@ darukaa/
 │   │   │   ├── conversation.py
 │   │   │   ├── evidence.py
 │   │   │   └── recommendation.py
+│   │   │
 │   │   ├── services/
 │   │   │   ├── retrieval/
 │   │   │   │   ├── ingest.py
 │   │   │   │   └── retriever.py
+│   │   │   │
 │   │   │   └── reasoning.py
+│   │   │
 │   │   └── main.py
+│   │
 │   ├── diagnostic.py
 │   └── requirements.txt
 │
@@ -247,6 +504,7 @@ darukaa/
 │   │   ├── routes/
 │   │   ├── lib/
 │   │   └── data/
+│   │
 │   └── package.json
 │
 ├── knowledge/
@@ -255,93 +513,112 @@ darukaa/
 │       └── metadata sidecars
 │
 └── README.md
-
 ```
 
 ---
 
-### **Local Environment Setup & Administration**
+# ⚙️ Local Development
 
-#### **1. Codebase Initialization**
+## 1. Repository Setup
 
 ```bash
 git clone https://github.com/Anas-Shaikh546/darukaa.git
 cd darukaa
-
 ```
 
-#### **2. Backend Service Launch**
+## 2. Backend Initialization
 
-```bash
+```powershell
 cd backend
 .\.venv\Scripts\Activate.ps1
 uvicorn app.main:app --reload
-# Service: http://localhost:8000 | Health Endpoint: http://localhost:8000/health
-
 ```
 
-#### **3. Frontend Application Launch**
+**API Engine:** `http://localhost:8000`
+
+**Health Check:** `http://localhost:8000/health`
+
+## 3. Frontend Initialization
 
 ```bash
 cd frontend
 npm install
 npm run dev
-# Interface: http://localhost:8080 (Targeting VITE_API_URL)
-
 ```
 
-#### **4. Knowledge Base Ingestion & Diagnostics**
+**Client Application:** `http://localhost:8080`
 
-```bash
-# Execute Knowledge Ingestion
+## 4. Data Ingestion & Diagnostics
+
+```powershell
 cd backend
 .\.venv\Scripts\Activate.ps1
 python -m app.services.retrieval.ingest
-
-# Run System Retrieval Diagnostics
 python diagnostic.py
-
 ```
 
 ---
 
-### **Hackathon Capability & Compliance Verification**
+# 🏆 Hackathon Capability Matrix
 
-| Feature Requirement | Status | Technical Implementation Mechanism |
-| --- | --- | --- |
-| **Conversational AI** | ✅ | FastAPI multi-turn message state management |
-| **Scientific RAG** | ✅ | Multi-facet querying against ChromaDB vector store |
-| **Vector Database** | ✅ | ChromaDB indexed collection (2,735 chunks / 16 sources) |
-| **Environmental Knowledge Layer** | ✅ | Peer-reviewed PDFs, environmental reports, and JSON sidecars |
-| **Soil Health Reasoning** | ✅ | Explicit SOC and soil-structure pathways |
-| **Land-Use Reasoning** | ✅ | Monoculture and land-use intensity evaluation |
-| **Climate/Rainfall Reasoning** | ✅ | Precipitation and moisture-availability tracking |
-| **Biodiversity Reasoning** | ✅ | Habitat fragmentation, connectivity, and species richness paths |
-| **Multi-Variable Reasoning** | ✅ | Combined traversal across $\ge 3$ environmental parameters |
-| **Evidence-Backed Recommendations** | ✅ | RAG-derived recommendation matching |
-| **Scientific Provenance** | ✅ | Source and chunk-level evidence metadata |
-| **Clarifying Questions** | ✅ | Missing-context detection |
-| **Multi-Turn Context** | ✅ | State persistence across clarification cycles |
-| **Impacted Metrics** | ✅ | Plausible ecosystem outcome mapping |
-| **Monitoring Horizons** | ✅ | Short, medium, and long-term indicator tracking |
-| **Structured Output** | ✅ | Pydantic-validated JSON contract outputs |
-| **Numerical Claim Validation** | ✅ | Automated regex matching and non-grounded token stripping |
-| **Deterministic Evidence Validation** | ✅ | Lexical evidence verification |
-| **Live Deployment** | ✅ | Vercel frontend + Render backend |
-
----
-
-### **Strategic Roadmap & Future Extensions**
-
-1. **Geographic Coordinates:** Integrating spatial overlays to map retrieval results to specific geographic bounds.
-2. **Earth Observation Integration:** Supplementing user inputs with satellite-derived vegetative indices and land-cover data.
-3. **Localized Species Inventories:** Incorporating regional biodiversity datasets to refine ecological impact assessments.
-4. **Expanded Graph Traversal:** Broadening ecological node definitions to encompass macro-climate and hydrology models.
-5. **Richer Data Fusion:** Blending structured geospatial datasets into the scientific vector layer.
+| Capability                              | Status | Technical Implementation                         |
+| --------------------------------------- | ------ | ------------------------------------------------ |
+| **Conversational Intelligence**         | ✅      | Multi-turn FastAPI conversation state            |
+| **Scientific RAG**                      | ✅      | Facet-based retrieval with ChromaDB              |
+| **Vector Knowledge Layer**              | ✅      | Scientific corpus indexed into ChromaDB          |
+| **Environmental Knowledge**             | ✅      | Scientific literature and institutional reports  |
+| **Soil Health Reasoning**               | ✅      | SOC and soil-function pathways                   |
+| **Land-Use Reasoning**                  | ✅      | Land-use intensity and habitat pathways          |
+| **Climate Reasoning**                   | ✅      | Rainfall and water-availability pathways         |
+| **Biodiversity Reasoning**              | ✅      | Habitat, movement, and species-richness pathways |
+| **Multi-Variable Reasoning**            | ✅      | Deterministic reasoning across 3+ variables      |
+| **Evidence-Grounded Output**            | ✅      | Retrieved scientific evidence + validation       |
+| **Scientific Provenance**               | ✅      | Source and chunk-level metadata                  |
+| **Clarifying Questions**                | ✅      | Context sufficiency validation                   |
+| **Multi-Turn Context**                  | ✅      | Conversation state across clarification          |
+| **Impacted Metrics**                    | ✅      | Environmental outcome mapping                    |
+| **Monitoring Horizons**                 | ✅      | Short-, medium-, and long-term indicators        |
+| **Structured Output**                   | ✅      | Pydantic-validated response contracts            |
+| **Numerical Claim Validation**          | ✅      | Unsupported quantitative-claim filtering         |
+| **Deterministic Evidence Verification** | ✅      | Lexical evidence verification                    |
+| **Live Cloud Deployment**               | ✅      | Vercel frontend + Render backend                 |
 
 ---
 
-### **Resource Links**
+# 🔭 Future Extensions
 
-* **GitHub Repository:** [https://github.com/Anas-Shaikh546/darukaa](https://github.com/Anas-Shaikh546/darukaa)
-* **Live Deployment:** [https://darukaa-rho.vercel.app/](https://darukaa-rho.vercel.app/)
+1. **Geographic Intelligence**
+   Integrate spatial coordinates and regional GIS data.
+
+2. **Earth Observation**
+   Incorporate satellite-derived indicators such as vegetation and soil-moisture observations.
+
+3. **Localized Biodiversity Data**
+   Connect regional species distribution and biodiversity datasets.
+
+4. **Expanded Ecological Graph**
+   Extend the relationship graph with hydrological, climatic, and ecological pathways.
+
+5. **Structured Data Fusion**
+   Combine scientific literature with structured environmental and geospatial datasets.
+
+---
+
+# 🎯 Why Darukaa?
+
+> **Environmental intelligence should be explainable, evidence-grounded, and connected across multiple ecological dimensions.**
+
+Instead of producing an isolated generic answer, **Darukaa**:
+
+**Understands the context → identifies missing information → retrieves scientific evidence → traverses explicit ecological relationships → connects multiple environmental variables → validates the output → identifies measurable environmental indicators.**
+
+The result is an environmental intelligence workflow where users can see **not only what is recommended, but also why the recommendation was produced, which evidence supports it, and what should be monitored afterward.**
+
+---
+
+# 🔗 Resource Links
+
+* 🌐 **Live Application:** https://darukaa-rho.vercel.app/
+* ⚡ **Backend Engine:** https://darukaa-d6d1.onrender.com
+* 🩺 **API Health Check:** https://darukaa-d6d1.onrender.com/health
+* 💻 **Source Code:** https://github.com/Anas-Shaikh546/darukaa
