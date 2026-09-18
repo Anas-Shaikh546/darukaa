@@ -318,11 +318,7 @@ def get_collection():
         flush=True,
     )
 
-    embed_fn = (
-        embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name=EMBEDDING_MODEL
-        )
-    )
+    embed_fn = embedding_functions.ONNXMiniLM_L6_V2()
 
     print(
         "DARUKAA DEBUG: getting collection",
