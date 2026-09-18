@@ -846,6 +846,7 @@ def _validate(
         "evidence_grounded": evidence_grounded,
         "numeric_claims_ok": num_ok,
         "evidence_verification_ok": recommendation_verified,
+        "llm_verification_ok": recommendation_verified,
         "messages": [
             vars_msg,
             ev_msg,

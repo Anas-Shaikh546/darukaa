@@ -4,10 +4,12 @@ Retrieval layer for Darukaa.
 Converts an EnvironmentInput into a set of retrieval queries, queries
 ChromaDB, and returns ranked real evidence chunks with provenance.
 
+Also supports direct knowledge-question retrieval for questions that do not
+contain structured environmental variables.
+
 Important: `similarity` here is a retrieval/vector-space similarity score,
 NOT a scientific confidence score. The two concepts are deliberately kept
-separate - scientific confidence belongs to a later reasoning layer that
-Day 1 does not build.
+separate - scientific confidence belongs to a later reasoning layer.
 
 Design note (found via manual per-facet testing): concatenating every
 environmental facet into one combined query string and running a single
@@ -71,6 +73,11 @@ def build_facet_queries(env: EnvironmentInput) -> list[str]:
         if env.biodiversity.habitat_diversity is not None:
             facets.append("habitat diversity")
 
+        if env.biodiversity.status:
+            facets.append(
+                f"{env.biodiversity.status} biodiversity species"
+            )
+
     if env.human_impact:
         if env.human_impact.pollution:
             facets.append(
@@ -97,6 +104,39 @@ def build_query_text(env: EnvironmentInput) -> str:
     return " | ".join(build_facet_queries(env))
 
 
+def _format_hit(
+    chunk_id: str,
+    text: str,
+    meta: dict,
+    distance: float,
+    matched_facet: str,
+) -> dict:
+    """Convert a Chroma result into Darukaa's evidence format."""
+    similarity = 1 - distance
+
+    return {
+        "chunk_id": chunk_id,
+        "matched_facet": matched_facet,
+        "distance": round(distance, 4),
+        "similarity": round(similarity, 4),
+        "text": text,
+        "source": meta.get("source"),
+        "title": meta.get("title"),
+        "source_url": meta.get("source_url"),
+        "source_file": meta.get("source_file"),
+        "page": meta.get("page"),
+        "year": meta.get("year"),
+        "document_type": meta.get("document_type"),
+        "topic": meta.get("topic"),
+        "variables": (
+            meta.get("variables").split(",")
+            if meta.get("variables")
+            else []
+        ),
+        "location_scope": meta.get("location_scope"),
+    }
+
+
 def _query_facet(
     collection,
     facet: str,
@@ -121,33 +161,61 @@ def _query_facet(
         metas,
         distances,
     ):
-        similarity = 1 - distance
-
         hits.append(
-            {
-                "chunk_id": chunk_id,
-                "matched_facet": facet,
-                "distance": round(distance, 4),
-                "similarity": round(similarity, 4),
-                "text": text,
-                "source": meta.get("source"),
-                "title": meta.get("title"),
-                "source_url": meta.get("source_url"),
-                "source_file": meta.get("source_file"),
-                "page": meta.get("page"),
-                "year": meta.get("year"),
-                "document_type": meta.get("document_type"),
-                "topic": meta.get("topic"),
-                "variables": (
-                    meta.get("variables").split(",")
-                    if meta.get("variables")
-                    else []
-                ),
-                "location_scope": meta.get("location_scope"),
-            }
+            _format_hit(
+                chunk_id=chunk_id,
+                text=text,
+                meta=meta,
+                distance=distance,
+                matched_facet=facet,
+            )
         )
 
     return hits
+
+
+def retrieve_knowledge(
+    query: str,
+    top_k: int = DEFAULT_TOP_K,
+) -> dict:
+    """Retrieve evidence directly for a natural-language knowledge question.
+
+    Unlike environmental retrieval, this function does not construct or
+    invent environmental variables. The user's question is sent directly
+    to the existing Chroma collection.
+    """
+    query = query.strip()
+
+    if not query:
+        return {
+            "query": "",
+            "facets": [],
+            "results": [],
+        }
+
+    collection = get_collection()
+
+    if collection.count() == 0:
+        return {
+            "query": query,
+            "facets": [query],
+            "results": [],
+        }
+
+    hits = _query_facet(
+        collection,
+        query,
+        min(top_k, collection.count()),
+    )
+
+    for rank, item in enumerate(hits, start=1):
+        item["rank"] = rank
+
+    return {
+        "query": query,
+        "facets": [query],
+        "results": hits,
+    }
 
 
 def retrieve(
