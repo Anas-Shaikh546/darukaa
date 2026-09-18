@@ -33,31 +33,52 @@ RETRY_EVIDENCE_K = 8
 def _detect_variables(env: EnvironmentInput) -> List[str]:
     """Detect presence of environmental input parameters."""
     vars_detected: List[str] = []
+
     if env.soil and env.soil.organic_carbon is not None:
         vars_detected.append(_VARIABLE_TO_NODE["soil_organic_carbon"])
-    if env.climate and env.climate.rainfall_category is not None:
+
+    if env.climate and (
+        env.climate.rainfall_category is not None
+        or env.climate.rainfall_mm_year is not None
+    ):
         vars_detected.append(_VARIABLE_TO_NODE["rainfall_category"])
-    if env.land and env.land.land_use is not None:
+
+    if env.land and (
+        env.land.land_use is not None
+        or env.land.land_cover is not None
+    ):
         vars_detected.append(_VARIABLE_TO_NODE["land_use"])
-    if env.biodiversity is not None:
+
+    if env.biodiversity and (
+        env.biodiversity.species_richness is not None
+        or env.biodiversity.habitat_diversity is not None
+        or env.biodiversity.status is not None
+    ):
         vars_detected.append(_VARIABLE_TO_NODE["biodiversity"])
+
     return vars_detected
 
 
 def _load_graph() -> dict:
     """Load the deterministic ecological relationship graph from disk."""
     path = Path(__file__).parents[1] / "relationship_graph.json"
+
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def _traverse_graph(graph: dict, variables: List[str]) -> List[List[str]]:
+def _traverse_graph(
+    graph: dict,
+    variables: List[str],
+) -> List[List[str]]:
     """Traverse graph and gather paths matching detected variables."""
     collected: List[List[str]] = []
+
     for category_paths in graph.values():
         for path in category_paths:
             if any(node in variables for node in path):
                 collected.append(path)
+
     return collected
 
 
@@ -68,11 +89,15 @@ def _select_intervention(env: EnvironmentInput) -> str:
         and env.soil.organic_carbon is not None
         and env.soil.organic_carbon < 1.0
     )
+
     low_rain = (
         env.climate
-        and env.climate.rainfall_category is not None
-        and str(env.climate.rainfall_category).lower() == "low"
+        and (
+            env.climate.rainfall_category is not None
+            and str(env.climate.rainfall_category).lower() == "low"
+        )
     )
+
     monoculture = (
         env.land
         and env.land.land_use is not None
@@ -81,8 +106,10 @@ def _select_intervention(env: EnvironmentInput) -> str:
 
     if low_soc:
         return "agroforestry"
+
     if monoculture or low_rain:
         return "intercropping"
+
     return _INTERVENTIONS[0]
 
 
@@ -91,10 +118,13 @@ def _select_intervention(env: EnvironmentInput) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _validate_variable_count(variables: List[str]) -> Tuple[bool, str]:
+def _validate_variable_count(
+    variables: List[str],
+) -> Tuple[bool, str]:
     """Pass only if at least three meaningful variables are detected."""
     if len(variables) >= 3:
         return True, "Variable count OK"
+
     return False, f"Only {len(variables)} variable(s) detected; need >=3"
 
 
@@ -104,9 +134,11 @@ def _validate_evidence_presence(
     """Ensure evidence list exists and items contain required fields."""
     if not evidence:
         return False, "No evidence retrieved"
+
     for ev in evidence:
         if not ev.source or not ev.title or not ev.chunk_id or not ev.text:
             return False, "Evidence item missing required fields or chunk text"
+
     return True, "Evidence present"
 
 
@@ -116,27 +148,36 @@ def _strip_numerical_claims(text: str) -> str:
 
 
 def _validate_numerical_claims(
-    text: str, evidence: List[EvidenceItem]
+    text: str,
+    evidence: List[EvidenceItem],
 ) -> Tuple[str, bool, str]:
     """Require numeric tokens in recommendations to be present in evidence text."""
     numbers = re.findall(r"\b\d+(?:\.\d+)?%?\b", text)
+
     if not numbers:
         return text, True, "No numeric claims"
 
     evidence_text = " ".join(ev.text or "" for ev in evidence)
+
     for num in numbers:
         escaped = re.escape(num)
+
         if not re.search(rf"\b{escaped}\b", evidence_text):
             stripped = _strip_numerical_claims(text)
+
             return (
                 stripped,
                 False,
                 f"Numeric claim '{num}' unsupported by evidence text - stripped",
             )
+
     return text, True, "Numeric claim(s) supported by evidence"
 
 
-def _run_verifier(claim: str, evidence_chunks: List[dict]) -> bool:
+def _run_verifier(
+    claim: str,
+    evidence_chunks: List[dict],
+) -> bool:
     """Verify that a claim is groundable in the retrieved evidence chunks."""
     if not claim or not evidence_chunks:
         return False
@@ -227,32 +268,51 @@ def _run_verifier(claim: str, evidence_chunks: List[dict]) -> bool:
             + " "
             + (chunk.get("used_for") or "")
         ).lower()
-        overlap = {w for w in claim_words if w in chunk_text}
+
+        overlap = {
+            word
+            for word in claim_words
+            if word in chunk_text
+        }
+
         if overlap and (
-            len(overlap) / len(claim_words) >= 0.3 or len(overlap) >= 2
+            len(overlap) / len(claim_words) >= 0.3
+            or len(overlap) >= 2
         ):
             return True
 
     return False
 
 
-def _calculate_confidence(evidence: List[EvidenceItem]) -> float:
+def _calculate_confidence(
+    evidence: List[EvidenceItem],
+) -> float:
     """Calculate mean retrieval similarity across selected evidence."""
     scores = [
-        float(ev.similarity) for ev in evidence if ev.similarity is not None
+        float(ev.similarity)
+        for ev in evidence
+        if ev.similarity is not None
     ]
+
     if not scores:
         return 0.0
+
     avg = sum(scores) / len(scores)
+
     return max(0.0, min(1.0, avg))
 
 
 def _generate_monitoring_plan(
-    variables: List[str], relationships: List[List[str]]
+    variables: List[str],
+    relationships: List[List[str]],
 ) -> List[MonitoringMetric]:
     """Map reasoning paths to short-, medium-, and long-term monitoring indicators."""
     plan: List[MonitoringMetric] = []
-    flattened_graph_nodes = {node for path in relationships for node in path}
+    flattened_graph_nodes = {
+        node
+        for path in relationships
+        for node in path
+    }
 
     if "SOC" in variables or "SOC" in flattened_graph_nodes:
         plan.append(
@@ -310,7 +370,8 @@ def _generate_monitoring_plan(
 
 
 def _fallback_output(
-    variable_count: int, reason_msg: str
+    variable_count: int,
+    reason_msg: str,
 ) -> RecommendationOutput:
     """Return structured fallback when context/evidence criteria are unfulfilled."""
     reasoning = Reasoning(
@@ -318,8 +379,12 @@ def _fallback_output(
         relationships=[],
         explanation="Insufficient evidence to generate a confident recommendation.",
     )
+
     return RecommendationOutput(
-        recommendation="Further analysis required; insufficient evidence to provide a confident recommendation.",
+        recommendation=(
+            "Further analysis required; insufficient evidence to provide "
+            "a confident recommendation."
+        ),
         reasoning=reasoning,
         impacted_metrics=[],
         time_horizon="medium",
@@ -411,9 +476,15 @@ def _select_evidence(
         },
     }
 
-    target_terms = intervention_terms.get(intervention, {intervention})
+    target_terms = intervention_terms.get(
+        intervention,
+        {intervention},
+    )
+
     for variable in variables:
-        target_terms = target_terms.union(variable_terms.get(variable, set()))
+        target_terms = target_terms.union(
+            variable_terms.get(variable, set())
+        )
 
     scored_results = []
 
@@ -436,6 +507,7 @@ def _select_evidence(
             score += 5
 
         similarity = hit.get("similarity")
+
         if similarity is not None:
             try:
                 score += float(similarity)
@@ -452,7 +524,11 @@ def _select_evidence(
         )
 
     scored_results.sort(
-        key=lambda item: (item[0], item[1], -item[2]),
+        key=lambda item: (
+            item[0],
+            item[1],
+            -item[2],
+        ),
         reverse=True,
     )
 
@@ -461,10 +537,12 @@ def _select_evidence(
 
     for _, _, _, hit in scored_results:
         chunk_id = hit.get("chunk_id")
+
         if chunk_id and chunk_id in selected_ids:
             continue
 
         selected.append(hit)
+
         if chunk_id:
             selected_ids.add(chunk_id)
 
@@ -503,7 +581,10 @@ def _build_recommendation(
         if len(metrics) == 2:
             metric_text = f"{metrics[0]} and {metrics[1]}"
         else:
-            metric_text = ", ".join(metrics[:-1]) + f", and {metrics[-1]}"
+            metric_text = (
+                ", ".join(metrics[:-1])
+                + f", and {metrics[-1]}"
+            )
     elif metrics:
         metric_text = metrics[0]
     else:
@@ -517,14 +598,21 @@ def _build_recommendation(
     if "Rainfall" in variables:
         rainfall = (
             str(env.climate.rainfall_category).lower()
-            if env.climate and env.climate.rainfall_category is not None
+            if env.climate
+            and env.climate.rainfall_category is not None
             else ""
         )
+
         if rainfall == "low":
             context_parts.append("low rainfall")
 
-    if "Land-use intensity" in variables and env.land and env.land.land_use:
+    if (
+        "Land-use intensity" in variables
+        and env.land
+        and env.land.land_use
+    ):
         land_use = env.land.land_use.lower()
+
         if "monoculture" in land_use:
             context_parts.append("monoculture land use")
         else:
@@ -534,10 +622,13 @@ def _build_recommendation(
         if len(context_parts) == 1:
             context_text = context_parts[0]
         elif len(context_parts) == 2:
-            context_text = f"{context_parts[0]} and {context_parts[1]}"
+            context_text = (
+                f"{context_parts[0]} and {context_parts[1]}"
+            )
         else:
             context_text = (
-                ", ".join(context_parts[:-1]) + f", and {context_parts[-1]}"
+                ", ".join(context_parts[:-1])
+                + f", and {context_parts[-1]}"
             )
 
         return (
@@ -557,24 +648,48 @@ def _build_recommendation(
 
 
 def _generate_recommendation(
-    env: EnvironmentInput, retrieval_top_k: int, evidence_k: int
+    env: EnvironmentInput,
+    retrieval_top_k: int,
+    evidence_k: int,
 ) -> RecommendationOutput:
     """Generate recommendation output, reasoning, metrics, and evidence payload."""
     variables = _detect_variables(env)
-    retrieval_result = retrieve(env, top_k=retrieval_top_k)
-    results = retrieval_result.get("results", [])
-    graph = _load_graph()
-    relationships = _traverse_graph(graph, variables)
-    intervention = _select_intervention(env)
-    impacted_metrics: List[ImpactMetric] = []
-    flattened_graph_nodes = {node for path in relationships for node in path}
 
-    if "SOC" in variables or "SOC" in flattened_graph_nodes:
+    retrieval_result = retrieve(
+        env,
+        top_k=retrieval_top_k,
+    )
+
+    results = retrieval_result.get("results", [])
+
+    graph = _load_graph()
+
+    relationships = _traverse_graph(
+        graph,
+        variables,
+    )
+
+    intervention = _select_intervention(env)
+
+    impacted_metrics: List[ImpactMetric] = []
+
+    flattened_graph_nodes = {
+        node
+        for path in relationships
+        for node in path
+    }
+
+    if (
+        "SOC" in variables
+        or "SOC" in flattened_graph_nodes
+    ):
         impacted_metrics.append(
             ImpactMetric(
                 metric="soil_organic_carbon",
                 estimate="potentially improved",
-                basis="intervention increases organic matter and root biomass",
+                basis=(
+                    "intervention increases organic matter and root biomass"
+                ),
             )
         )
 
@@ -587,7 +702,10 @@ def _generate_recommendation(
             ImpactMetric(
                 metric="soil_moisture",
                 estimate="potentially improved",
-                basis="intervention improves soil structure and water retention capacity",
+                basis=(
+                    "intervention improves soil structure and water "
+                    "retention capacity"
+                ),
             )
         )
 
@@ -602,7 +720,10 @@ def _generate_recommendation(
             ImpactMetric(
                 metric="habitat_diversity",
                 estimate="potentially improved",
-                basis="intervention restores vegetative strata and reduces fragmentation",
+                basis=(
+                    "intervention restores vegetative strata and reduces "
+                    "fragmentation"
+                ),
             )
         )
 
@@ -617,7 +738,10 @@ def _generate_recommendation(
             ImpactMetric(
                 metric="species_richness",
                 estimate="potentially improved",
-                basis="intervention provides diverse niches and supports organism survival",
+                basis=(
+                    "intervention provides diverse niches and supports "
+                    "organism survival"
+                ),
             )
         )
 
@@ -649,7 +773,10 @@ def _generate_recommendation(
         ),
     )
 
-    monitoring_plan = _generate_monitoring_plan(variables, relationships)
+    monitoring_plan = _generate_monitoring_plan(
+        variables,
+        relationships,
+    )
 
     recommendation = _build_recommendation(
         env=env,
@@ -670,13 +797,23 @@ def _generate_recommendation(
     )
 
 
-def _validate(output: RecommendationOutput) -> Tuple[bool, Dict[str, Any]]:
+def _validate(
+    output: RecommendationOutput,
+) -> Tuple[bool, Dict[str, Any]]:
     """Perform deterministic validation across variables, evidence grounding, and claims."""
-    vars_ok, vars_msg = _validate_variable_count(output.reasoning.variables)
-    ev_present_ok, ev_msg = _validate_evidence_presence(output.evidence)
-    rec_text, num_ok, num_msg = _validate_numerical_claims(
-        output.recommendation, output.evidence
+    vars_ok, vars_msg = _validate_variable_count(
+        output.reasoning.variables
     )
+
+    ev_present_ok, ev_msg = _validate_evidence_presence(
+        output.evidence
+    )
+
+    rec_text, num_ok, num_msg = _validate_numerical_claims(
+        output.recommendation,
+        output.evidence,
+    )
+
     output.recommendation = rec_text
 
     if ev_present_ok:
@@ -687,8 +824,16 @@ def _validate(output: RecommendationOutput) -> Tuple[bool, Dict[str, Any]]:
     else:
         recommendation_verified = False
 
-    evidence_grounded = ev_present_ok and recommendation_verified
-    all_pass = vars_ok and evidence_grounded and num_ok
+    evidence_grounded = (
+        ev_present_ok
+        and recommendation_verified
+    )
+
+    all_pass = (
+        vars_ok
+        and evidence_grounded
+        and num_ok
+    )
 
     ver_msg = (
         "Deterministic evidence verification: supported"
@@ -701,27 +846,44 @@ def _validate(output: RecommendationOutput) -> Tuple[bool, Dict[str, Any]]:
         "evidence_grounded": evidence_grounded,
         "numeric_claims_ok": num_ok,
         "evidence_verification_ok": recommendation_verified,
-        "messages": [vars_msg, ev_msg, num_msg, ver_msg],
+        "messages": [
+            vars_msg,
+            ev_msg,
+            num_msg,
+            ver_msg,
+        ],
     }
 
     return all_pass, detail
 
 
-def reason(env: EnvironmentInput) -> RecommendationOutput:
+def reason(
+    env: EnvironmentInput,
+) -> RecommendationOutput:
     """Public entry point: generate, validate, retry at most once, and fallback on failure."""
-    output = _generate_recommendation(env, RETRIEVAL_TOP_K, EVIDENCE_K)
+    output = _generate_recommendation(
+        env,
+        RETRIEVAL_TOP_K,
+        EVIDENCE_K,
+    )
+
     variables = output.reasoning.variables
+
     if len(variables) < 3:
         return _fallback_output(
-            len(variables), f"Only {len(variables)} variable(s) detected; need >=3"
+            len(variables),
+            f"Only {len(variables)} variable(s) detected; need >=3",
         )
 
     all_pass, detail = _validate(output)
 
     if not all_pass:
         output = _generate_recommendation(
-            env, RETRY_RETRIEVAL_TOP_K, RETRY_EVIDENCE_K
+            env,
+            RETRY_RETRIEVAL_TOP_K,
+            RETRY_EVIDENCE_K,
         )
+
         all_pass, detail = _validate(output)
         detail["retry_used"] = True
     else:
@@ -729,9 +891,14 @@ def reason(env: EnvironmentInput) -> RecommendationOutput:
 
     if not all_pass:
         return _fallback_output(
-            detail["variable_count"], "; ".join(detail["messages"])
+            detail["variable_count"],
+            "; ".join(detail["messages"]),
         )
 
-    output.confidence = _calculate_confidence(output.evidence)
+    output.confidence = _calculate_confidence(
+        output.evidence
+    )
+
     output.validation = detail
+
     return output

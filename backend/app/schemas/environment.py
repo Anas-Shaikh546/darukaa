@@ -41,6 +41,7 @@ class Land(BaseModel):
 class Biodiversity(BaseModel):
     species_richness: Optional[float] = None
     habitat_diversity: Optional[float] = None
+    status: Optional[str] = None
 
 
 class HumanImpact(BaseModel):
